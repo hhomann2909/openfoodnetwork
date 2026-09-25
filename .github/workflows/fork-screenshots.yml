@@ -1,0 +1,76 @@
+# Fork only (not for upstream): renders our features with realistic data and uploads full page
+# screenshots as the "screenshots" artifact, for design reviews.
+name: Screenshots
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'feature/**'
+
+env:
+  TIMEZONE: UTC
+  RAILS_ENV: test
+
+permissions:
+  contents: read
+
+jobs:
+  screenshots:
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:14
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 1s
+          --health-timeout 1s
+          --health-retries 30
+        env:
+          POSTGRES_DB: open_food_network_test
+          POSTGRES_USER: ofn
+          POSTGRES_PASSWORD: f00d
+      redis:
+        image: redis
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 1s
+          --health-timeout 1s
+          --health-retries 30
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .node-version
+          cache: yarn
+
+      - name: Install JS dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Set up database
+        run: bin/rails db:create db:schema:load
+
+      - name: Compile assets
+        run: bin/rails assets:precompile
+
+      - name: Render screenshots
+        run: bundle exec rspec spec/fork/screenshots_spec.rb
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: screenshots
+          path: |
+            tmp/screenshots
+            tmp/capybara
+          retention-days: 7
+          if-no-files-found: ignore
