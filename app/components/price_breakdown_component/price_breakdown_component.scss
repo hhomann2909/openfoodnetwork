@@ -1,36 +1,43 @@
 @use "../../webpacker/css/darkswarm/branding" as b;
 
+// Where the money for a variant goes, in the product modal (grid view). The bar and the
+// swatches share one colour per part of the price, item cost first in the brand's green.
 .price-breakdown {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid b.$light-grey;
+  margin-top: 1.25rem;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  background: b.$grey-050;
 
   .price-breakdown-title {
-    font-weight: bold;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
+    font-weight: 600;
 
     .variant-name {
-      font-weight: normal;
       margin-left: 0.5rem;
+      color: b.$grey-650;
+      font-weight: normal;
     }
   }
 
+  .segment-0 { background: b.$clr-turquoise; }
+  .segment-1 { background: b.$orange-400; }
+  .segment-2 { background: b.$teal-400; }
+  .segment-3 { background: b.$grey-400; }
+  .segment-4 { background: b.$grey-650; }
+
   .price-breakdown-bar {
     display: flex;
-    height: 0.75rem;
+    gap: 2px;
+    height: 10px;
     margin-bottom: 0.75rem;
     overflow: hidden;
-    border-radius: 0.375rem;
+    border-radius: 5px;
 
     .segment {
       display: block;
       height: 100%;
     }
-
-    .segment-0 { background: b.$clr-turquoise; }
-    .segment-1 { background: b.$teal-400; }
-    .segment-2 { background: b.$orange-400; }
-    .segment-3 { background: b.$grey-400; }
-    .segment-4 { background: b.$grey-650; }
   }
 
   dl {
@@ -39,38 +46,53 @@
     > div {
       display: flex;
       justify-content: space-between;
+      align-items: baseline;
       gap: 1rem;
-      padding: 0.25rem 0;
+      padding: 0.3rem 0;
     }
   }
 
   dt {
+    position: relative;
+    padding-left: 1.125rem;
     font-weight: normal;
 
     small {
       display: block;
       color: b.$grey-650;
+      font-size: 0.75rem;
     }
+  }
+
+  .swatch {
+    position: absolute;
+    top: 0.4em;
+    left: 0;
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 2px;
   }
 
   dd {
     margin: 0;
-    white-space: nowrap;
     font-variant-numeric: tabular-nums;
+    white-space: nowrap;
   }
 
   .total {
-    border-top: 1px solid b.$light-grey;
-    font-weight: bold;
+    margin-top: 0.25rem;
+    border-top: 1px solid b.$grey-200;
+    padding-top: 0.5rem;
 
-    dt {
-      font-weight: bold;
+    dt,
+    dd {
+      font-weight: 600;
     }
   }
 
   .item-cost-share {
-    margin-top: 0.5rem;
+    margin: 0.5rem 0 0;
     color: b.$grey-650;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
   }
 }

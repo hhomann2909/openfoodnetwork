@@ -1,88 +1,136 @@
 @use "../../webpacker/css/darkswarm/branding" as b;
+@use "../../webpacker/css/darkswarm/mixins" as m;
 
+// Shared pallet of an order cycle (feature: pallet_progress). In the shop it sits above the
+// product grid in the shop's grey, with the bar in the brand colour; compact, it is a single
+// line at the foot of a home page product tile.
 .pallet-progress {
-  margin: 0 0 1rem;
-  padding: 0.75rem 1rem;
-  border: 1px solid b.$light-grey;
-  border-radius: 0.5rem;
-  background: b.$white;
+  margin: 12px 0 0;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  background: b.$grey-050;
 
   .pallet-progress-header {
     display: flex;
     flex-wrap: wrap;
+    align-items: center;
     justify-content: space-between;
-    gap: 0.25rem 1rem;
-    margin-bottom: 0.5rem;
+    gap: 0.5rem 1rem;
+    margin-bottom: 0.625rem;
   }
 
   .pallet-progress-title {
-    font-weight: bold;
+    font-weight: 600;
   }
 
   .pallet-progress-fill {
-    margin-left: 0.5rem;
+    margin-left: 0.375rem;
+    color: b.$orange-600;
     font-variant-numeric: tabular-nums;
   }
 
   .pallet-progress-status {
-    color: b.$orange-600;
-    font-weight: 600;
-  }
-
-  &.confirmed .pallet-progress-status {
-    color: b.$clr-turquoise;
+    padding: 0.125rem 0.75rem;
+    border-radius: 999px;
+    background: b.$white;
+    color: b.$grey-800;
+    font-size: 0.875rem;
   }
 
   .pallet-progress-bar {
     position: relative;
-    height: 0.625rem;
-    border-radius: 0.3125rem;
-    background: b.$grey-100;
+    height: 8px;
+    border-radius: 4px;
+    background: b.$grey-200;
   }
 
   .pallet-progress-bar-fill {
     position: absolute;
     inset: 0 auto 0 0;
-    border-radius: 0.3125rem;
+    border-radius: 4px;
     background: b.$orange-500;
   }
 
-  &.confirmed .pallet-progress-bar-fill {
-    background: b.$clr-turquoise;
-  }
-
+  // Where the delivery is confirmed.
   .pallet-progress-minimum {
     position: absolute;
-    top: -0.1875rem;
-    bottom: -0.1875rem;
+    top: -3px;
+    bottom: -3px;
     width: 2px;
+    margin-left: -1px;
+    border-radius: 1px;
     background: b.$grey-800;
   }
 
-  .pallet-progress-detail,
-  .pallet-progress-explanation {
-    margin: 0.5rem 0 0;
+  .pallet-progress-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1.5rem;
+    margin-top: 0.625rem;
     font-size: 0.875rem;
+  }
+
+  .pallet-progress-detail {
+    font-variant-numeric: tabular-nums;
   }
 
   .pallet-progress-explanation {
     color: b.$grey-650;
+
+    @include m.breakpoint(phablet) {
+      display: none;
+    }
+  }
+
+  &.confirmed {
+    .pallet-progress-fill {
+      color: b.$clr-turquoise;
+    }
+
+    .pallet-progress-status {
+      background: b.$clr-turquoise-light;
+      color: b.$clr-turquoise;
+    }
+
+    .pallet-progress-bar-fill {
+      background: b.$clr-turquoise;
+    }
   }
 
   &.compact {
     margin: 0.5rem 0 0;
     padding: 0;
-    border: 0;
     background: none;
-    font-size: 0.8125rem;
+    font-size: 0.75rem;
 
     .pallet-progress-header {
+      flex-wrap: nowrap;
       margin-bottom: 0.25rem;
+      color: b.$grey-650;
+      white-space: nowrap;
     }
 
     .pallet-progress-title {
       font-weight: normal;
+    }
+
+    .pallet-progress-status {
+      overflow: hidden;
+      padding: 0;
+      background: none;
       color: b.$grey-650;
+      font-size: inherit;
+      text-overflow: ellipsis;
+    }
+
+    .pallet-progress-bar {
+      height: 4px;
+    }
+
+    .pallet-progress-minimum {
+      top: -2px;
+      bottom: -2px;
     }
   }
 }

@@ -12,6 +12,10 @@ RSpec.describe "Design screenshots", type: :system do
 
   def shot(name, size)
     page.driver.resize(*SIZES.fetch(size))
+    # Scroll through the page once so lazy loaded images are in before the full page capture.
+    page.execute_script("window.scrollTo(0, document.body.scrollHeight)")
+    sleep 1
+    page.execute_script("window.scrollTo(0, 0)")
     sleep 0.5
     FileUtils.mkdir_p(DIR)
     page.save_screenshot(DIR.join("#{name}-#{size}.png").to_s, full: true)
@@ -156,7 +160,7 @@ RSpec.describe "Design screenshots", type: :system do
 
     login_as_admin
     visit edit_admin_order_cycle_path(order_cycle)
-    click_link "Advanced Settings"
+    click_button "Advanced Settings"
     expect(page).to have_field "order_cycle_preferred_pallet_capacity"
     shot("06-admin-advanced-settings", :desktop)
   end

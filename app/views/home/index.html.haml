@@ -12,10 +12,9 @@
   - else
     = render "home/tagline"
 
-    - if feature?(:home_products, spree_current_user)
-      = render "home/products"
-
     #panes
+      - if feature?(:home_products, spree_current_user)
+        = render "home/products"
       = render "home/brandstory"
       = render "home/system"
       = render "home/cta"

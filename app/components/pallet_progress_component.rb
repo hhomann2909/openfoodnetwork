@@ -32,7 +32,8 @@ class PalletProgressComponent < ViewComponent::Base
     if progress.confirmed?
       t("components.pallet_progress.confirmed")
     elsif progress.minimum?
-      t("components.pallet_progress.to_confirm", weight: display_weight(progress.weight_to_confirm))
+      key = compact ? "to_confirm_short" : "to_confirm"
+      t("components.pallet_progress.#{key}", weight: display_weight(progress.weight_to_confirm))
     end
   end
 

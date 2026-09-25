@@ -2,11 +2,11 @@
 -# open shop, and each tile links to its shop, which always shows current stock and prices.
 = cache_with_locale ["home-products", home_product_origin], expires_in: 5.minutes do
   - if home_product_offers.any? || home_product_origin
-    %section#home-products.pane
-      .row
-        .small-12.columns
+    #home-products.pane
+      .row.header
+        .small-12.columns.text-center
           %h2= t("home_products.title")
-          %p= t("home_products.intro")
+          %p.home-products-intro= t("home_products.intro")
           - if home_product_origins.size > 1 || home_product_origin
             %nav.home-products-origins{ "aria-label": t("home_products.origin_filter") }
               = link_to t("home_products.all_origins"), main_app.root_path(anchor: "home-products"),
@@ -15,7 +15,7 @@
                 = link_to country_display_name(country),
                   main_app.root_path(origin: country.iso, anchor: "home-products"),
                   class: "origin-chip", "aria-current": country.iso == home_product_origin ? "true" : nil
-      .row
+      .row.content
         .small-12.columns
           - if home_product_offers.any?
             %ul.home-products-grid
@@ -23,6 +23,5 @@
                 %li= render HomeProductTileComponent.new(offer:)
           - else
             %p.home-products-empty= t("home_products.none_from_origin")
-      .row
-        .small-12.columns.text-center
-          = link_to t("home_products.all_shops"), main_app.shops_path, class: "button"
+          .home-products-more
+            = link_to t("home_products.all_shops"), main_app.shops_path, class: "home-products-cta"

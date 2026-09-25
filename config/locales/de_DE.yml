@@ -4679,6 +4679,7 @@ de_DE:
       kg: "%{weight} kg"
       confirmed: "Lieferung sicher"
       to_confirm: "noch %{weight} bis zur Lieferung"
+      to_confirm_short: "noch %{weight}"
       detail: "%{ordered} von %{capacity} bestellt"
       explanation: "Die Bestellungen dieses Bestellzyklus reisen gemeinsam auf einer Palette."
       explanation_with_minimum: "Die Bestellungen dieses Bestellzyklus reisen gemeinsam auf einer Palette. Sie wird geliefert, sobald sie zu %{minimum} gefüllt ist."

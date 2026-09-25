@@ -11,5 +11,6 @@
     - if progress.minimum?
       %span.pallet-progress-minimum{ style: "left: #{percent(progress.minimum_fill)}%" }
   - unless compact
-    %p.pallet-progress-detail= detail
-    %p.pallet-progress-explanation= explanation
+    .pallet-progress-footer
+      %span.pallet-progress-detail= detail
+      %span.pallet-progress-explanation= explanation

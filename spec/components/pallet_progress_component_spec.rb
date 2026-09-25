@@ -45,6 +45,7 @@ RSpec.describe PalletProgressComponent, type: :component do
     render_inline(described_class.new(progress: progress, compact: true))
 
     expect(page).to have_selector ".pallet-progress.compact .pallet-progress-bar"
+    expect(page).to have_selector ".pallet-progress-status", text: "64 kg to go"
     expect(page).not_to have_selector ".pallet-progress-detail"
   end
 

@@ -9,12 +9,17 @@
         %span{ class: "segment segment-#{index % 5}", style: "width: #{share_of_total(amount)}%", title: name }
   %dl
     .item-cost
-      %dt= t("item_cost")
+      %dt
+        - if segments.any?
+          %i.swatch.segment-0{ "aria-hidden": "true" }
+        = t("item_cost")
       %dd= item_cost
-    - variant.fees.each do |fee|
+    - variant.fees.each_with_index do |fee, index|
       .fee
         %dt
-          = fee.name
+          - if segments.any?
+            %i.swatch{ class: "segment-#{(index + 1) % 5}", "aria-hidden": "true" }
+          %span.fee-name= fee.name
           %small= fee.enterprise_name
         %dd= money(fee.amount)
     .total
