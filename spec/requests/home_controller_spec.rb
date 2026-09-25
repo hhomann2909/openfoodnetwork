@@ -12,10 +12,11 @@ RSpec.describe HomeController do
       let(:shop) { create(:distributor_enterprise, with_payment_and_shipping: true) }
       let(:product) { create(:product, name: "Navel Oranges") }
 
-      before do
-        Rails.cache.clear
+      let!(:order_cycle) {
         create(:simple_order_cycle, distributors: [shop], variants: [product.variants.first])
-      end
+      }
+
+      before { Rails.cache.clear }
 
       it "lists them, each linking to the shop that sells it", feature: :home_products do
         get root_path
@@ -23,6 +24,31 @@ RSpec.describe HomeController do
         expect(response.body).to include "Available now"
         expect(response.body).to include "Navel Oranges"
         expect(response.body).to include enterprise_shop_path(shop)
+      end
+
+      it "offers a filter by country of origin", feature: :home_products do
+        italy = Spree::Country.find_by(iso: "IT") || create(:country, iso: "IT", name: "Italy")
+        italian_producer = create(:supplier_enterprise)
+        italian_producer.address.update_columns(country_id: italy.id)
+        mozzarella = create(:product, name: "Mozzarella", enterprise_id: italian_producer.id)
+        order_cycle.exchanges.outgoing.first.variants << mozzarella.variants.first
+
+        get root_path
+
+        expect(response.body).to include "All countries"
+        expect(response.body).to include root_path(origin: "IT", anchor: "home-products")
+
+        get root_path(origin: "it")
+
+        expect(response.body).to include "Mozzarella"
+        expect(response.body).not_to include "Navel Oranges"
+      end
+
+      it "ignores an origin that isn't a country code", feature: :home_products do
+        get root_path(origin: "<script>")
+
+        expect(response).to have_http_status :ok
+        expect(response.body).to include "Navel Oranges"
       end
 
       it "doesn't list them while the feature is off" do

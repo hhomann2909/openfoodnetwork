@@ -3,7 +3,7 @@
 class HomeController < BaseController
   layout 'darkswarm'
 
-  helper_method :home_product_offers
+  helper_method :home_product_offers, :home_product_origins, :home_product_origin
 
   def index
     @external_page = CachedExternalPage.fetch(ContentConfig.home_page_url)
@@ -29,7 +29,21 @@ class HomeController < BaseController
 
   # Called from inside the view's fragment cache, so the shops are only queried on a cache miss.
   def home_product_offers
-    @home_product_offers ||= HomeProductsService.new.offers
+    home_products.offers
+  end
+
+  def home_product_origins
+    home_products.origins
+  end
+
+  # ISO code of the country chosen in the origin filter, if any.
+  def home_product_origin
+    origin = params[:origin].to_s.upcase
+    origin if origin.match?(/\A[A-Z]{2}\z/)
+  end
+
+  def home_products
+    @home_products ||= HomeProductsService.new(origin: home_product_origin)
   end
 
   # Cache the value of the query count

@@ -80,3 +80,31 @@
   padding: 0;
   list-style: none;
 }
+
+.home-products-origins {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+
+  .origin-chip {
+    padding: 0.25rem 0.875rem;
+    border: 1px solid b.$light-grey;
+    border-radius: 999px;
+    background: b.$white;
+    color: inherit;
+    font-weight: 600;
+
+    &:hover,
+    &:focus {
+      border-color: b.$teal-500;
+      text-decoration: none;
+    }
+
+    &[aria-current="true"] {
+      background: b.$grey-800;
+      border-color: b.$grey-800;
+      color: b.$white;
+    }
+  }
+}

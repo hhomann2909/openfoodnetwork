@@ -88,6 +88,41 @@ RSpec.describe HomeProductsService do
     expect(offers.map { |offer| offer.product.name }).to eq ["Lemons", "Oranges"]
   end
 
+  describe "country of origin" do
+    let(:italian_producer) { create(:supplier_enterprise) }
+    let(:mozzarella) { create(:product, name: "Mozzarella", enterprise_id: italian_producer.id) }
+    let(:spain) { Spree::Country.find_by(iso: "ES") || create(:country, iso: "ES", name: "Spain") }
+    let(:italy) { Spree::Country.find_by(iso: "IT") || create(:country, iso: "IT", name: "Italy") }
+
+    before do
+      producer.address.update_columns(country_id: spain.id)
+      italian_producer.address.update_columns(country_id: italy.id)
+      open_order_cycle(distributors: [shop], variants: [oranges.variants.first,
+                                                        lemons.variants.first,
+                                                        mozzarella.variants.first])
+    end
+
+    it "lists the countries products come from, most products first" do
+      expect(described_class.new.origins).to eq [spain, italy]
+    end
+
+    it "narrows offers to one country" do
+      offers = described_class.new(origin: "IT").offers
+
+      expect(offers.map { |offer| offer.product.name }).to eq ["Mozzarella"]
+    end
+
+    it "still knows all countries while narrowed to one" do
+      expect(described_class.new(origin: "IT").origins).to eq [spain, italy]
+    end
+
+    it "finds the country of a product from its producer's address" do
+      product = described_class.new(origin: "ES").offers.first.product
+
+      expect(described_class.origin_of(product)).to eq spain
+    end
+  end
+
   it "stops at the limit" do
     open_order_cycle(distributors: [shop],
                      variants: [oranges.variants.first, lemons.variants.first])

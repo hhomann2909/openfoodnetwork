@@ -1,17 +1,28 @@
 -# Products from all open shops (feature: home_products). Cached briefly: the list spans every
 -# open shop, and each tile links to its shop, which always shows current stock and prices.
-= cache_with_locale "home-products", expires_in: 5.minutes do
-  - if home_product_offers.any?
+= cache_with_locale ["home-products", home_product_origin], expires_in: 5.minutes do
+  - if home_product_offers.any? || home_product_origin
     %section#home-products.pane
       .row
         .small-12.columns
           %h2= t("home_products.title")
           %p= t("home_products.intro")
+          - if home_product_origins.size > 1 || home_product_origin
+            %nav.home-products-origins{ "aria-label": t("home_products.origin_filter") }
+              = link_to t("home_products.all_origins"), main_app.root_path(anchor: "home-products"),
+                class: "origin-chip", "aria-current": home_product_origin ? nil : "true"
+              - home_product_origins.each do |country|
+                = link_to country_display_name(country),
+                  main_app.root_path(origin: country.iso, anchor: "home-products"),
+                  class: "origin-chip", "aria-current": country.iso == home_product_origin ? "true" : nil
       .row
         .small-12.columns
-          %ul.home-products-grid
-            - home_product_offers.each do |offer|
-              %li= render HomeProductTileComponent.new(offer:)
+          - if home_product_offers.any?
+            %ul.home-products-grid
+              - home_product_offers.each do |offer|
+                %li= render HomeProductTileComponent.new(offer:)
+          - else
+            %p.home-products-empty= t("home_products.none_from_origin")
       .row
         .small-12.columns.text-center
           = link_to t("home_products.all_shops"), main_app.shops_path, class: "button"
