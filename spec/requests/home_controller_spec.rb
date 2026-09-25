@@ -8,6 +8,39 @@ RSpec.describe HomeController do
       expect(response.body).to include "tagline"
     end
 
+    context "with products from open shops" do
+      let(:shop) { create(:distributor_enterprise, with_payment_and_shipping: true) }
+      let(:product) { create(:product, name: "Navel Oranges") }
+
+      before do
+        Rails.cache.clear
+        create(:simple_order_cycle, distributors: [shop], variants: [product.variants.first])
+      end
+
+      it "lists them, each linking to the shop that sells it", feature: :home_products do
+        get root_path
+
+        expect(response.body).to include "Available now"
+        expect(response.body).to include "Navel Oranges"
+        expect(response.body).to include enterprise_shop_path(shop)
+      end
+
+      it "doesn't list them while the feature is off" do
+        get root_path
+
+        expect(response.body).not_to include "Navel Oranges"
+      end
+    end
+
+    context "with the home products feature on but nothing on sale", feature: :home_products do
+      it "leaves out the products section" do
+        get root_path
+
+        expect(response.body).to include "tagline"
+        expect(response.body).not_to include "Available now"
+      end
+    end
+
     context "with an external home page configured" do
       let(:url) { "https://cms.example.com/home/" }
 

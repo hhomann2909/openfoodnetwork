@@ -1,0 +1,17 @@
+-# Products from all open shops (feature: home_products). Cached briefly: the list spans every
+-# open shop, and each tile links to its shop, which always shows current stock and prices.
+= cache_with_locale "home-products", expires_in: 5.minutes do
+  - if home_product_offers.any?
+    %section#home-products.pane
+      .row
+        .small-12.columns
+          %h2= t("home_products.title")
+          %p= t("home_products.intro")
+      .row
+        .small-12.columns
+          %ul.home-products-grid
+            - home_product_offers.each do |offer|
+              %li= render HomeProductTileComponent.new(offer:)
+      .row
+        .small-12.columns.text-center
+          = link_to t("home_products.all_shops"), main_app.shops_path, class: "button"

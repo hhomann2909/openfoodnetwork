@@ -535,6 +535,10 @@ en:
         title: Other Failure (%{count} orders)
         explainer: Automatic processing of these orders failed for an unknown reason. This should not occur, please contact us if you are seeing this.
 
+  home_products:
+    title: "Available now"
+    intro: "Order directly from producers and pick up at a shop near you."
+    all_shops: "See all shops"
   home: "OFN"
   title: "Open Food Network"
   welcome_to: "Welcome to"
@@ -5240,6 +5244,14 @@ en:
       multiple_producers: "Multiple producers"
       multiple_options: "multiple options"
       from_price: "from"
+    home_product_tile:
+      multiple_producers: "Multiple producers"
+      from_price: "from"
+      sold_at: "at %{shop}"
+      sold_at_and_more:
+        one: "at %{shop} and 1 more shop"
+        other: "at %{shop} and %{count} more shops"
+      closes_in: "Orders close in %{time}"
   # Gem to prevent bot form submissions
   invisible_captcha:
     sentence_for_humans: "Please leave empty"

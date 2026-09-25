@@ -3,6 +3,8 @@
 class HomeController < BaseController
   layout 'darkswarm'
 
+  helper_method :home_product_offers
+
   def index
     @external_page = CachedExternalPage.fetch(ContentConfig.home_page_url)
     return if @external_page
@@ -24,6 +26,11 @@ class HomeController < BaseController
   end
 
   private
+
+  # Called from inside the view's fragment cache, so the shops are only queried on a cache miss.
+  def home_product_offers
+    @home_product_offers ||= HomeProductsService.new.offers
+  end
 
   # Cache the value of the query count
   def cached_count(statistic, query)
