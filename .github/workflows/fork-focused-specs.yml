@@ -22,6 +22,11 @@ env:
     spec/requests/home_controller_spec.rb
     spec/services/products_renderer_spec.rb
     spec/services/shops_list_service_spec.rb
+    spec/components/price_breakdown_component_spec.rb
+    spec/components/shop_variant_modal_component_spec.rb
+    spec/models/view_data/product_spec.rb
+    spec/lib/open_food_network/enterprise_fee_calculator_spec.rb
+    spec/requests/products_spec.rb
 
 permissions:
   contents: read
@@ -77,11 +82,20 @@ jobs:
           INPUT_SPECS: ${{ github.event.inputs.specs }}
         run: bundle exec rspec --format documentation ${INPUT_SPECS:-$SPECS}
 
-      - name: Rubocop and HAML lint on changed files
+      - name: Rubocop and HAML lint on our files
         run: |
-          bundle exec rubocop app/services/home_products_service.rb \
-            app/components/home_product_tile_component.rb app/controllers/home_controller.rb \
-            lib/open_food_network/feature_toggle.rb spec/services/home_products_service_spec.rb \
-            spec/components/home_product_tile_component_spec.rb spec/requests/home_controller_spec.rb
-          bundle exec haml-lint app/views/home/_products.html.haml app/views/home/index.html.haml \
-            app/components/home_product_tile_component/home_product_tile_component.html.haml
+          bundle exec rubocop \
+            app/services/home_products_service.rb app/services/products_renderer.rb \
+            app/components/home_product_tile_component.rb app/components/price_breakdown_component.rb \
+            app/controllers/home_controller.rb app/helpers/country_name_helper.rb \
+            app/models/view_data lib/open_food_network/feature_toggle.rb \
+            lib/open_food_network/enterprise_fee_calculator.rb \
+            spec/services/home_products_service_spec.rb spec/services/products_renderer_spec.rb \
+            spec/components/home_product_tile_component_spec.rb \
+            spec/components/price_breakdown_component_spec.rb spec/requests/home_controller_spec.rb \
+            spec/lib/open_food_network/enterprise_fee_calculator_spec.rb
+          bundle exec haml-lint \
+            app/views/home/_products.html.haml app/views/home/index.html.haml \
+            app/components/home_product_tile_component/home_product_tile_component.html.haml \
+            app/components/price_breakdown_component/price_breakdown_component.html.haml \
+            app/components/product_tile_component/product_tile_component.html.haml

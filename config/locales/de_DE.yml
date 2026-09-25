@@ -366,6 +366,9 @@ de_DE:
     title: "Jetzt bestellbar"
     intro: "Direkt bei den Erzeugern bestellen und im Laden in deiner Nähe abholen."
     all_shops: "Alle Läden ansehen"
+    origin_filter: "Nach Herkunftsland filtern"
+    all_origins: "Alle Länder"
+    none_from_origin: "Aus diesem Land ist gerade nichts bestellbar."
   home: "OFN"
   title: "Open Food Network"
   welcome_to: "Regionale Lebensmittel online bestellen im"
@@ -3688,6 +3691,18 @@ de_DE:
       success: Webhook-Endpunkt erfolgreich gelöscht
       error: Webhook-Endpunkt konnte nicht gelöscht werden
   spree:
+    country_names:
+      AT: Österreich
+      BE: Belgien
+      CH: Schweiz
+      DE: Deutschland
+      DK: Dänemark
+      ES: Spanien
+      FR: Frankreich
+      GR: Griechenland
+      IT: Italien
+      NL: Niederlande
+      PT: Portugal
     order_updated: "Bestellung aktualisiert"
     add_country: "Neues Land"
     add_state: "Bundesland hinzufügen"
@@ -4655,3 +4670,7 @@ de_DE:
         one: "bei %{shop} und 1 weiteren Laden"
         other: "bei %{shop} und %{count} weiteren Läden"
       closes_in: "Bestellschluss in %{time}"
+    price_breakdown:
+      title: "Wohin geht dein Geld?"
+      total: "Du zahlst"
+      item_cost_share: "%{share} des Preises sind die Artikelkosten. Der Rest sind Gebühren der Betriebe, die ihn zu dir bringen."
