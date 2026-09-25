@@ -23,9 +23,10 @@ nrw = germany.states.find_by!(abbr: "NW")
 spain = Spree::Country.find_by!(iso: "ES")
 italy = Spree::Country.find_by!(iso: "IT")
 
-def address(country, city, street, zipcode, state: nil)
+# Countries without seeded states (Spain, Italy) take the region as a free text state name.
+def address(country, city, street, zipcode, state: nil, region: nil)
   Spree::Address.new(firstname: "Beispiel", lastname: "Betrieb", address1: street, city:,
-                     zipcode:, phone: "+49 2554 0000", country:, state:)
+                     zipcode:, phone: "+49 2554 0000", country:, state:, state_name: region)
 end
 
 def enterprise(owner, **attributes)
@@ -62,20 +63,21 @@ ActiveRecord::Base.transaction do
 
   # Producers in the south
   producers = {
-    ferrer: ["Finca Els Tarongers (Beispiel)", spain, "Alzira", "46600",
+    ferrer: ["Finca Els Tarongers (Beispiel)", spain, "Alzira", "46600", "Valencia",
              "Drei Generationen, 11 ha Orangen und Clementinen am Río Júcar. Seit 2019 bio."],
-    molina: ["Huerta La Molina (Beispiel)", spain, "Vélez-Málaga", "29700",
+    molina: ["Huerta La Molina (Beispiel)", spain, "Vélez-Málaga", "29700", "Andalucía",
              "Avocados von Terrassenhängen der Axarquía, 38 % aufbereitetes Wasser."],
     jimenez: ["Olivar Sierra Mágina (Beispiel)", spain, "Bélmez de la Moraleda", "23568",
+              "Andalucía",
               "Olivenhain auf 800 m, Frühernte Picual, Mandeln vom Nachbarhang."],
-    esposito: ["Caseificio Santa Lucia (Beispiel)", italy, "Battipaglia", "84091",
+    esposito: ["Caseificio Santa Lucia (Beispiel)", italy, "Battipaglia", "84091", "Campania",
                "Kleine Käserei mit 140 Büffeln in der Piana del Sele."],
-    russo: ["Agrumi Russo (Beispiel)", italy, "Siracusa", "96100",
+    russo: ["Agrumi Russo (Beispiel)", italy, "Siracusa", "96100", "Sicilia",
             "Zitronen und Tarocco-Blutorangen am Fuß der Iblei-Berge."],
-  }.transform_values do |name, country, city, zipcode, description|
+  }.transform_values do |name, country, city, zipcode, region, description|
     enterprise(admin, name:, sells: "none", is_primary_producer: true,
                       description: city, long_description: description,
-                      address: address(country, city, "Camino Rural 1", zipcode))
+                      address: address(country, city, "Camino Rural 1", zipcode, region:))
   end
 
   producers.each_value do |producer|
