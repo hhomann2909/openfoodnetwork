@@ -362,6 +362,10 @@ de_DE:
       other:
         title: Andere Fehler (%{count} Bestellungen)
         explainer: Die automatische Verarbeitung dieser Bestellungen ist aus einem unbekannten Grund gescheitert. Dies sollte nicht geschehen, Bitte kontaktieren Sie uns, wenn Sie dies sehen.
+  home_products:
+    title: "Jetzt bestellbar"
+    intro: "Direkt bei den Erzeugern bestellen und im Laden in deiner Nähe abholen."
+    all_shops: "Alle Läden ansehen"
   home: "OFN"
   title: "Open Food Network"
   welcome_to: "Regionale Lebensmittel online bestellen im"
@@ -4643,3 +4647,11 @@ de_DE:
         order_cycle_opened: Bestellzyklus eröffnet
     product_tile:
       from_price: "von"
+    home_product_tile:
+      multiple_producers: "Mehrere Erzeuger"
+      from_price: "ab"
+      sold_at: "bei %{shop}"
+      sold_at_and_more:
+        one: "bei %{shop} und 1 weiteren Laden"
+        other: "bei %{shop} und %{count} weiteren Läden"
+      closes_in: "Bestellschluss in %{time}"
