@@ -1443,6 +1443,10 @@ de_DE:
         preferred_product_selection_from_coordinator_inventory_only_here: Nur vom Katalog des Koordinators
         preferred_product_selection_from_coordinator_inventory_only_all: Alle verfügbaren Produkte
         save_reload: Speichern und neu laden
+        pallet_capacity: Palettenkapazität (kg)
+        pallet_capacity_tip: Bestellungen von weit entfernten Erzeugern reisen gemeinsam auf einer Palette. Trage ein, wie viele kg darauf passen, damit Kund*innen sehen, wie voll sie ist. 0 = keine Palette verfolgen.
+        pallet_minimum_fill: Mindestfüllung für die Lieferung (%)
+        pallet_minimum_fill_tip: Wie voll die Palette sein muss, damit die Lieferung stattfindet. Kund*innen sehen, wie viel noch fehlt. 0 = keine Mindestfüllung.
       order_cycle_top_buttons:
         advanced_settings: "Erweiterte Einstellungen"
       coordinator_fees:
@@ -4670,6 +4674,15 @@ de_DE:
         one: "bei %{shop} und 1 weiteren Laden"
         other: "bei %{shop} und %{count} weiteren Läden"
       closes_in: "Bestellschluss in %{time}"
+    pallet_progress:
+      title: "Gemeinsame Palette"
+      kg: "%{weight} kg"
+      confirmed: "Lieferung sicher"
+      to_confirm: "noch %{weight} bis zur Lieferung"
+      detail: "%{ordered} von %{capacity} bestellt"
+      explanation: "Die Bestellungen dieses Bestellzyklus reisen gemeinsam auf einer Palette."
+      explanation_with_minimum: "Die Bestellungen dieses Bestellzyklus reisen gemeinsam auf einer Palette. Sie wird geliefert, sobald sie zu %{minimum} gefüllt ist."
+      bar_label: "Palette zu %{fill} gefüllt"
     price_breakdown:
       title: "Wohin geht dein Geld?"
       total: "Du zahlst"

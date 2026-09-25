@@ -27,6 +27,11 @@ env:
     spec/models/view_data/product_spec.rb
     spec/lib/open_food_network/enterprise_fee_calculator_spec.rb
     spec/requests/products_spec.rb
+    spec/services/order_cycles/pallet_progress_spec.rb
+    spec/components/pallet_progress_component_spec.rb
+    spec/services/order_cycles/clone_service_spec.rb
+    spec/services/permitted_attributes/order_cycle_spec.rb
+    spec/models/order_cycle_spec.rb
 
 permissions:
   contents: read
@@ -90,12 +95,18 @@ jobs:
             app/controllers/home_controller.rb app/helpers/country_name_helper.rb \
             app/models/view_data lib/open_food_network/feature_toggle.rb \
             lib/open_food_network/enterprise_fee_calculator.rb \
+            app/services/order_cycles/pallet_progress.rb app/components/pallet_progress_component.rb \
+            app/controllers/products_controller.rb app/models/order_cycle.rb \
+            app/services/order_cycles/clone_service.rb app/services/permitted_attributes/order_cycle.rb \
             spec/services/home_products_service_spec.rb spec/services/products_renderer_spec.rb \
-            spec/components/home_product_tile_component_spec.rb \
-            spec/components/price_breakdown_component_spec.rb spec/requests/home_controller_spec.rb \
-            spec/lib/open_food_network/enterprise_fee_calculator_spec.rb
+            spec/components/home_product_tile_component_spec.rb spec/components/price_breakdown_component_spec.rb \
+            spec/requests/home_controller_spec.rb spec/lib/open_food_network/enterprise_fee_calculator_spec.rb \
+            spec/services/order_cycles/pallet_progress_spec.rb spec/components/pallet_progress_component_spec.rb \
+            spec/requests/products_spec.rb
           bundle exec haml-lint \
             app/views/home/_products.html.haml app/views/home/index.html.haml \
             app/components/home_product_tile_component/home_product_tile_component.html.haml \
             app/components/price_breakdown_component/price_breakdown_component.html.haml \
-            app/components/product_tile_component/product_tile_component.html.haml
+            app/components/product_tile_component/product_tile_component.html.haml \
+            app/components/pallet_progress_component/pallet_progress_component.html.haml \
+            app/views/products/index.html.haml app/views/admin/order_cycles/_advanced_settings.html.haml
