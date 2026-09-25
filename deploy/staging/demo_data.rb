@@ -114,8 +114,7 @@ ActiveRecord::Base.transaction do
   hubs.each { |hub| allow.call(coordinator, hub) }
 
   # Products
-  taxonomy = Spree::Taxonomy.find_or_create_by!(name: "Produkte")
-  taxon = ->(name) { Spree::Taxon.find_or_create_by!(name:, taxonomy:, parent: taxonomy.root) }
+  taxon = ->(name) { Spree::Taxon.find_or_create_by!(name:) }
 
   products = [
     ["Bio-Orangen Navelina", :ferrer, "orangen", 23.70, 10, "Obst",
