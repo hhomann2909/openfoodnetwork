@@ -204,6 +204,36 @@ RSpec.describe OpenFoodNetwork::EnterpriseFeeCalculator do
             .indexed_fees_by_type_for(product1.variants.first))
             .to eq(admin: -1.23, packing: 7.89, transport: 0.12, fundraising: 3.45)
         end
+
+        describe "fee by fee" do
+          subject(:breakdown) {
+            OpenFoodNetwork::EnterpriseFeeCalculator.new(distributor, order_cycle)
+              .indexed_fees_breakdown_for(product1.variants.first)
+          }
+
+          it "lists each fee with its name, type and amount" do
+            expect(breakdown.map { |fee| [fee.name, fee.fee_type, fee.amount] })
+              .to contain_exactly(
+                ["Admin", "admin", 1.23], ["Sales", "sales", 4.56], ["Packing", "packing", 7.89],
+                ["Transport", "transport", 0.12], ["Fundraising", "fundraising", 3.45]
+              )
+          end
+
+          it "names the enterprise charging each fee" do
+            transport = breakdown.find { |fee| fee.name == "Transport" }
+
+            expect(transport.enterprise_name).to eq ef_transport.enterprise.name
+          end
+
+          it "leaves out zero fees and keeps negative ones" do
+            ef_admin.calculator.update_attribute :preferred_amount, -1.23
+            ef_sales.calculator.update_attribute :preferred_amount, 0
+
+            expect(breakdown.map(&:name)).to contain_exactly(
+              "Admin", "Packing", "Transport", "Fundraising"
+            )
+          end
+        end
       end
     end
 

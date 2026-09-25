@@ -24,3 +24,7 @@
 
     = render ModalComponent.new(id: modal_id, modal_class: "big") do
       = render partial: "shared/product/product_details", locals: { product:, available_variant_ids: product.variants.map(&:id) }
+      .row
+        .columns.small-12.medium-6
+          - product.variants.each do |variant|
+            = render PriceBreakdownComponent.new(variant:, show_variant_name: !product.single_variant?)

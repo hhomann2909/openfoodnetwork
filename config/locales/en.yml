@@ -5252,6 +5252,10 @@ en:
         one: "at %{shop} and 1 more shop"
         other: "at %{shop} and %{count} more shops"
       closes_in: "Orders close in %{time}"
+    price_breakdown:
+      title: "Where your money goes"
+      total: "You pay"
+      item_cost_share: "%{share} of the price is the item cost. The rest are fees of the enterprises bringing it to you."
   # Gem to prevent bot form submissions
   invisible_captcha:
     sentence_for_humans: "Please leave empty"

@@ -1,0 +1,24 @@
+.price-breakdown
+  %h5.price-breakdown-title
+    = t("components.price_breakdown.title")
+    - if show_variant_name
+      %span.variant-name= variant_name
+  - if segments.any?
+    .price-breakdown-bar{ "aria-hidden": "true" }
+      - segments.each_with_index do |(name, amount), index|
+        %span{ class: "segment segment-#{index % 5}", style: "width: #{share_of_total(amount)}%", title: name }
+  %dl
+    .item-cost
+      %dt= t("item_cost")
+      %dd= item_cost
+    - variant.fees.each do |fee|
+      .fee
+        %dt
+          = fee.name
+          %small= fee.enterprise_name
+        %dd= money(fee.amount)
+    .total
+      %dt= t("components.price_breakdown.total")
+      %dd= variant.display_price_with_fees
+  - if segments.any?
+    %p.item-cost-share= t("components.price_breakdown.item_cost_share", share: item_cost_share)

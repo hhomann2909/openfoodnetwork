@@ -423,4 +423,27 @@ RSpec.describe ProductsRenderer do
       end
     end
   end
+
+  describe "#products_view" do
+    let(:product) { create(:product) }
+
+    before { exchange.variants << product.variants.first }
+
+    it "includes the fees on each variant" do
+      exchange.enterprise_fees << create(:enterprise_fee, name: "Pallet freight", amount: 2)
+
+      variant = described_class.new(distributor, order_cycle, customer)
+        .products_view.first.variants.first
+
+      expect(variant.fees.map { |fee| [fee.name, fee.amount] }).to eq [["Pallet freight", 2]]
+      expect(variant.price_with_fees).to eq variant.price + 2
+    end
+
+    it "has no fees when the order cycle charges none" do
+      variant = described_class.new(distributor, order_cycle, customer)
+        .products_view.first.variants.first
+
+      expect(variant.fees).to be_empty
+    end
+  end
 end

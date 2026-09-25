@@ -56,7 +56,8 @@ class ProductsRenderer
         display_price_with_fees: presenter.display_price_with_fees,
         unit_price: presenter.unit_price,
         display_unit_price: presenter.display_unit_price,
-        product: simple_product
+        product: simple_product,
+        fees: enterprise_fee_calculator.indexed_fees_breakdown_for(variant)
       )
     end
   end

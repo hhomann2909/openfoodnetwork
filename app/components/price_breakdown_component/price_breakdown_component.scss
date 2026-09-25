@@ -1,0 +1,76 @@
+@use "../../webpacker/css/darkswarm/branding" as b;
+
+.price-breakdown {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid b.$light-grey;
+
+  .price-breakdown-title {
+    font-weight: bold;
+
+    .variant-name {
+      font-weight: normal;
+      margin-left: 0.5rem;
+    }
+  }
+
+  .price-breakdown-bar {
+    display: flex;
+    height: 0.75rem;
+    margin-bottom: 0.75rem;
+    overflow: hidden;
+    border-radius: 0.375rem;
+
+    .segment {
+      display: block;
+      height: 100%;
+    }
+
+    .segment-0 { background: b.$clr-turquoise; }
+    .segment-1 { background: b.$teal-400; }
+    .segment-2 { background: b.$orange-400; }
+    .segment-3 { background: b.$grey-400; }
+    .segment-4 { background: b.$grey-650; }
+  }
+
+  dl {
+    margin: 0;
+
+    > div {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.25rem 0;
+    }
+  }
+
+  dt {
+    font-weight: normal;
+
+    small {
+      display: block;
+      color: b.$grey-650;
+    }
+  }
+
+  dd {
+    margin: 0;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .total {
+    border-top: 1px solid b.$light-grey;
+    font-weight: bold;
+
+    dt {
+      font-weight: bold;
+    }
+  }
+
+  .item-cost-share {
+    margin-top: 0.5rem;
+    color: b.$grey-650;
+    font-size: 0.875rem;
+  }
+}
