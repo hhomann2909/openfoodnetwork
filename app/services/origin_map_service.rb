@@ -33,14 +33,18 @@ class OriginMapService
 
   def routes
     open_exchanges.group_by(&:order_cycle).flat_map do |order_cycle, exchanges|
-      producer_ids = exchanges.select(&:incoming).map(&:sender_id)
-      shop_ids = exchanges.reject(&:incoming).map(&:receiver_id)
-      producer_ids.product(shop_ids).filter_map do |producer_id, shop_id|
-        next unless located_ids.include?(producer_id) && located_ids.include?(shop_id)
-
-        route(order_cycle, producer_id, shop_id)
-      end
+      order_cycle_routes(order_cycle, exchanges)
     end.uniq { |route| [route[:from], route[:to]] }
+  end
+
+  # Every located producer supplying the order cycle, to every located shop it delivers to.
+  def order_cycle_routes(order_cycle, exchanges)
+    producer_ids = exchanges.select(&:incoming).map(&:sender_id) & located_ids.to_a
+    shop_ids = exchanges.reject(&:incoming).map(&:receiver_id) & located_ids.to_a
+
+    producer_ids.product(shop_ids).map do |producer_id, shop_id|
+      route(order_cycle, producer_id, shop_id)
+    end
   end
 
   def route(order_cycle, producer_id, shop_id)
@@ -82,7 +86,7 @@ class OriginMapService
 
   def located_ids
     @located_ids ||= Enterprise.joins(:address).
-      where.not(spree_addresses: { latitude: nil, longitude: nil }).
+      where("spree_addresses.latitude IS NOT NULL AND spree_addresses.longitude IS NOT NULL").
       pluck(:id).to_set
   end
 
@@ -92,7 +96,7 @@ class OriginMapService
   end
 
   def open_shop_ids
-    @open_shop_ids ||= open_exchanges.reject(&:incoming).map(&:receiver_id).to_set
+    @open_shop_ids ||= open_exchanges.reject(&:incoming).to_set(&:receiver_id)
   end
 
   # Names of the products each producer has on sale in open order cycles.
