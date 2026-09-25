@@ -23,10 +23,34 @@ nrw = germany.states.find_by!(abbr: "NW")
 spain = Spree::Country.find_by!(iso: "ES")
 italy = Spree::Country.find_by!(iso: "IT")
 
-# Countries without seeded states (Spain, Italy) take the region as a free text state name.
+# Addresses need a state whenever the country requires one, and OFN reads the free text
+# state_name through the state, so producers in the south need their regions as states.
+REGIONS = {
+  "ES" => [["Andalucía", "AN"], ["Aragón", "AR"], ["Asturias", "AS"], ["Illes Balears", "IB"],
+           ["Canarias", "CN"], ["Cantabria", "CB"], ["Castilla-La Mancha", "CM"],
+           ["Castilla y León", "CL"], ["Cataluña", "CT"], ["Extremadura", "EX"],
+           ["Galicia", "GA"], ["La Rioja", "RI"], ["Madrid", "MD"], ["Murcia", "MC"],
+           ["Navarra", "NC"], ["País Vasco", "PV"], ["Comunitat Valenciana", "VC"],
+           ["Ceuta", "CE"], ["Melilla", "ML"]],
+  "IT" => [["Abruzzo", "65"], ["Basilicata", "77"], ["Calabria", "78"], ["Campania", "72"],
+           ["Emilia-Romagna", "45"], ["Friuli-Venezia Giulia", "36"], ["Lazio", "62"],
+           ["Liguria", "42"], ["Lombardia", "25"], ["Marche", "57"], ["Molise", "67"],
+           ["Piemonte", "21"], ["Puglia", "75"], ["Sardegna", "88"], ["Sicilia", "82"],
+           ["Toscana", "52"], ["Trentino-Alto Adige", "32"], ["Umbria", "55"],
+           ["Valle d'Aosta", "23"], ["Veneto", "34"]],
+}.freeze
+
+REGIONS.each do |iso, regions|
+  country = Spree::Country.find_by!(iso:)
+  regions.each do |name, abbr|
+    Spree::State.find_or_create_by!(country:, name:) { |state| state.abbr = abbr }
+  end
+end
+
 def address(country, city, street, zipcode, state: nil, region: nil)
+  state ||= country.states.find_by!(name: region) if region
   Spree::Address.new(firstname: "Beispiel", lastname: "Betrieb", address1: street, city:,
-                     zipcode:, phone: "+49 2554 0000", country:, state:, state_name: region)
+                     zipcode:, phone: "+49 2554 0000", country:, state:)
 end
 
 def enterprise(owner, **attributes)
@@ -63,7 +87,7 @@ ActiveRecord::Base.transaction do
 
   # Producers in the south
   producers = {
-    ferrer: ["Finca Els Tarongers (Beispiel)", spain, "Alzira", "46600", "Valencia",
+    ferrer: ["Finca Els Tarongers (Beispiel)", spain, "Alzira", "46600", "Comunitat Valenciana",
              "Drei Generationen, 11 ha Orangen und Clementinen am Río Júcar. Seit 2019 bio."],
     molina: ["Huerta La Molina (Beispiel)", spain, "Vélez-Málaga", "29700", "Andalucía",
              "Avocados von Terrassenhängen der Axarquía, 38 % aufbereitetes Wasser."],
