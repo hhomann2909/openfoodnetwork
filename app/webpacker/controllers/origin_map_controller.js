@@ -25,14 +25,18 @@ export default class extends Controller {
     this.#drawRoutes();
     this.#drawMarkers();
     this.#fitToVisible();
-    // The grid may settle its size after connect (fonts, phone layout): fit again once it has.
-    requestAnimationFrame(() => {
+
+    // The map can get its size only after connect: phone layout, fonts, or a page opened in a
+    // background tab. Resize with it, and fit to the markers once it first has a size.
+    this.resizeObserver = new ResizeObserver(() => {
       this.map.invalidateSize();
-      this.#fitToVisible();
+      if (!this.fitted) this.#fitToVisible();
     });
+    this.resizeObserver.observe(this.mapTarget);
   }
 
   disconnect() {
+    this.resizeObserver?.disconnect();
     this.map?.remove();
   }
 
@@ -239,6 +243,7 @@ export default class extends Controller {
     // Without a size Leaflet would zoom all the way in; wait for the next fit instead.
     const size = this.map.getSize();
     if (size.x === 0 || size.y === 0) return;
+    this.fitted = true;
 
     const latLngs = [...this.markers.values()]
       .filter((marker) => this.map.hasLayer(marker))
