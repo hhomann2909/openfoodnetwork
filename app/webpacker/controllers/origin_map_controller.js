@@ -236,6 +236,10 @@ export default class extends Controller {
   }
 
   #fitToVisible() {
+    // Without a size Leaflet would zoom all the way in; wait for the next fit instead.
+    const size = this.map.getSize();
+    if (size.x === 0 || size.y === 0) return;
+
     const latLngs = [...this.markers.values()]
       .filter((marker) => this.map.hasLayer(marker))
       .map((marker) => marker.getLatLng());
