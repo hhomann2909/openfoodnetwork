@@ -104,14 +104,14 @@ ActiveRecord::Base.transaction do
                       address: address(country, city, "Camino Rural 1", zipcode, region:))
   end
 
-  producers.each_value do |producer|
-    EnterpriseRelationship.create!(parent: producer, child: coordinator,
-                                   permissions_list: ["add_to_order_cycle"])
+  # Enterprises of one owner are related automatically; grant what the order cycle needs.
+  allow = lambda do |parent, child|
+    relationship = EnterpriseRelationship.find_or_initialize_by(parent:, child:)
+    relationship.permissions_list = ["add_to_order_cycle"]
+    relationship.save!
   end
-  hubs.each do |hub|
-    EnterpriseRelationship.create!(parent: coordinator, child: hub,
-                                   permissions_list: ["add_to_order_cycle"])
-  end
+  producers.each_value { |producer| allow.call(producer, coordinator) }
+  hubs.each { |hub| allow.call(coordinator, hub) }
 
   # Products
   taxonomy = Spree::Taxonomy.find_or_create_by!(name: "Produkte")
