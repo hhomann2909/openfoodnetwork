@@ -1,0 +1,87 @@
+# Fork only (not for upstream): runs the specs of our own features on every push to a
+# feature branch, so a change gets feedback in minutes instead of the full upstream build.
+name: Focused specs
+
+on:
+  workflow_dispatch:
+    inputs:
+      specs:
+        description: "Spec files to run (space separated)"
+        required: false
+  push:
+    branches:
+      - 'feature/**'
+
+env:
+  TIMEZONE: UTC
+  RAILS_ENV: test
+  SPECS: >-
+    spec/services/home_products_service_spec.rb
+    spec/components/home_product_tile_component_spec.rb
+    spec/components/product_tile_component_spec.rb
+    spec/requests/home_controller_spec.rb
+    spec/services/products_renderer_spec.rb
+    spec/services/shops_list_service_spec.rb
+
+permissions:
+  contents: read
+
+jobs:
+  specs:
+    runs-on: ubuntu-22.04
+    services:
+      postgres:
+        image: postgres:14
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 1s
+          --health-timeout 1s
+          --health-retries 30
+        env:
+          POSTGRES_DB: open_food_network_test
+          POSTGRES_USER: ofn
+          POSTGRES_PASSWORD: f00d
+      redis:
+        image: redis
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 1s
+          --health-timeout 1s
+          --health-retries 30
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .node-version
+          cache: yarn
+
+      - name: Install JS dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Set up database
+        run: bin/rails db:create db:schema:load
+
+      - name: Compile assets
+        run: bin/rails assets:precompile
+
+      - name: Run specs
+        env:
+          INPUT_SPECS: ${{ github.event.inputs.specs }}
+        run: bundle exec rspec --format documentation ${INPUT_SPECS:-$SPECS}
+
+      - name: Rubocop and HAML lint on changed files
+        run: |
+          bundle exec rubocop app/services/home_products_service.rb \
+            app/components/home_product_tile_component.rb app/controllers/home_controller.rb \
+            lib/open_food_network/feature_toggle.rb spec/services/home_products_service_spec.rb \
+            spec/components/home_product_tile_component_spec.rb spec/requests/home_controller_spec.rb
+          bundle exec haml-lint app/views/home/_products.html.haml app/views/home/index.html.haml \
+            app/components/home_product_tile_component/home_product_tile_component.html.haml
