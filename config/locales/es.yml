@@ -434,6 +434,36 @@ es:
       other:
         title: Otros fallos (%{count} pedidos)
         explainer: El procesamiento automático de estas órdenes falló por un motivo desconocido. Esto no debería ocurrir, contáctanos si estás viendo esto.
+  origin_map:
+    title: "De dónde viene tu comida"
+    intro: "Los productores venden directamente. Sus pedidos viajan juntos a un punto de recogida cerca de ti."
+    filter_countries: "Filtrar por país"
+    all_countries: "Todos los países"
+    producers:
+      one: "1 productor"
+      other: "%{count} productores"
+    shops:
+      one: "1 punto de recogida"
+      other: "%{count} puntos de recogida"
+    producer: "Productor"
+    shop: "Punto de recogida"
+    route: "Ciclo de pedidos abierto"
+    on_sale: "Disponible ahora"
+    goes_to: "Se entrega en"
+    supplied_by: "Lo abastecen"
+    open: "Pedidos abiertos"
+    closed: "Sin ciclo de pedidos abierto"
+    order_here: "Pedir aquí"
+    pallet: "Palé compartido"
+    confirmed: "envío confirmado"
+    empty: "Todavía no hay productores ni puntos de recogida con ubicación."
+  home_products:
+    title: "Disponible ahora"
+    intro: "Pide directamente a los productores y recoge en una tienda cerca de ti."
+    all_shops: "Ver todas las tiendas"
+    origin_filter: "Filtrar por país de origen"
+    all_origins: "Todos los países"
+    none_from_origin: "Ahora mismo no hay nada de este país."
   home: "OFN"
   title: "Open Food Network"
   welcome_to: "Bienvenido a"
@@ -1584,6 +1614,10 @@ es:
         preferred_product_selection_from_coordinator_inventory_only_here: Solo el Inventario de la Coordinadora
         preferred_product_selection_from_coordinator_inventory_only_all: Todos los productos disponibles
         save_reload: Guardar y recargar la página
+        pallet_capacity: Capacidad del palé (kg)
+        pallet_capacity_tip: Los pedidos de productores lejanos viajan juntos en un palé. Indica cuántos kg caben para mostrar a los clientes lo lleno que está. Deja 0 para no seguir un palé.
+        pallet_minimum_fill: Llenado mínimo para el envío (%)
+        pallet_minimum_fill_tip: Lo lleno que debe estar el palé para que salga el envío. Los clientes ven cuánto falta. Deja 0 para no fijar un mínimo.
       order_cycle_top_buttons:
         advanced_settings: "Configuración Avanzada"
       coordinator_fees:
@@ -3850,6 +3884,18 @@ es:
   previous: "Anterior"
   last: "Último"
   spree:
+    country_names:
+      AT: Austria
+      BE: Bélgica
+      CH: Suiza
+      DE: Alemania
+      DK: Dinamarca
+      ES: España
+      FR: Francia
+      GR: Grecia
+      IT: Italia
+      NL: Países Bajos
+      PT: Portugal
     order_updated: "Pedido actualizado"
     cannot_perform_operation: "No se puede realizar esta operación."
     add_country: "Agregar pais"
@@ -4837,6 +4883,29 @@ es:
     product_tile:
       multiple_options: "varias opciones"
       from_price: "desde"
+    home_product_tile:
+      multiple_producers: "Varios productores"
+      from_price: "desde"
+      sold_at: "en %{shop}"
+      sold_at_and_more:
+        one: "en %{shop} y 1 tienda más"
+        other: "en %{shop} y %{count} tiendas más"
+      closes_in: "Pedidos hasta dentro de %{time}"
+    pallet_progress:
+      title: "Palé compartido"
+      title_short: "Palé"
+      kg: "%{weight} kg"
+      confirmed: "Envío confirmado"
+      to_confirm: "faltan %{weight} para el envío"
+      to_confirm_short: "faltan %{weight}"
+      detail: "%{ordered} de %{capacity} pedidos"
+      explanation: "Los pedidos de este ciclo viajan juntos en un palé."
+      explanation_with_minimum: "Los pedidos de este ciclo viajan juntos en un palé. Sale en cuanto esté lleno al %{minimum}."
+      bar_label: "Palé lleno al %{fill}"
+    price_breakdown:
+      title: "¿A dónde va tu dinero?"
+      total: "Pagas"
+      item_cost_share: "El %{share} del precio es el coste del artículo. El resto son comisiones de quienes te lo traen."
   invisible_captcha:
     sentence_for_humans: "Por favor, dejalo vacio"
     timestamp_error_message: "Por favor, inténtelo de nuevo después de 5 segundos."
