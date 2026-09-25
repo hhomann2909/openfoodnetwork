@@ -237,6 +237,12 @@ $top-bar: 65px;
   position: absolute;
   inset: 0;
   background: b.$grey-050;
+
+  // Calm the standard OpenStreetMap colours so markers and routes carry the map. Works with
+  // any key-free tile provider.
+  .leaflet-tile-pane {
+    filter: grayscale(0.85) brightness(1.06) contrast(0.92);
+  }
 }
 
 .origin-map-legend {

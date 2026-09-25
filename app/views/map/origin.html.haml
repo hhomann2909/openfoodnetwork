@@ -6,7 +6,7 @@
 - producers = @origin_map[:producers]
 - shops = @origin_map[:shops]
 - countries = (producers + shops).map { |point| [point[:country], point[:country_name]] }.uniq.sort_by(&:last)
-- tiles = ContentConfig.open_street_map_enabled ? ContentConfig.open_street_map_provider_name : "CartoDB.Positron"
+- tiles = ContentConfig.open_street_map_enabled ? ContentConfig.open_street_map_provider_name : "OpenStreetMap.Mapnik"
 
 .origin-map{ data: { controller: "origin-map",
                      "origin-map-points-value": (producers + shops).to_json,

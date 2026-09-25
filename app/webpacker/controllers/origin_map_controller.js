@@ -70,7 +70,7 @@ export default class extends Controller {
 
   #tileLayer() {
     try {
-      return L.tileLayer.provider(this.tilesValue || "CartoDB.Positron");
+      return L.tileLayer.provider(this.tilesValue || "OpenStreetMap.Mapnik");
     } catch {
       return L.tileLayer.provider("OpenStreetMap.Mapnik");
     }
