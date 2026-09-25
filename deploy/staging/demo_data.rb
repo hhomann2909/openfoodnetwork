@@ -14,6 +14,12 @@ if Enterprise.exists?(name: COORDINATOR_NAME)
   return
 end
 
+# German money format (20,04 €). Preferences are only written to the database once a connection
+# is open, so touch the table first.
+Spree::Preference.count
+Spree::Config.set(currency_decimal_mark: ",", currency_thousands_separator: ".",
+                  currency_symbol_position: "after")
+
 IMAGES = Rails.root.join("spec/fixtures/files/fork")
 admin = Spree::User.find_by!(admin: true)
 admin.update!(enterprise_limit: 100)
