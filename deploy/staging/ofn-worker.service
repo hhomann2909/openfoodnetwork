@@ -1,0 +1,19 @@
+# Fork only: OFN staging background jobs (Sidekiq).
+[Unit]
+Description=Open Food Network staging (jobs)
+After=network.target postgresql.service redis-server.service
+
+[Service]
+User=ofn
+WorkingDirectory=/opt/ofn/app
+EnvironmentFile=/opt/ofn/ofn.env
+Environment=RAILS_ENV=production
+Environment=PATH=/opt/ofn/.rbenv/shims:/opt/ofn/.rbenv/bin:/opt/ofn/node/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/opt/ofn/.rbenv/shims/bundle exec sidekiq -e production -C config/sidekiq.yml -c 2
+Restart=on-failure
+RestartSec=5
+MemoryMax=800M
+Nice=10
+
+[Install]
+WantedBy=multi-user.target

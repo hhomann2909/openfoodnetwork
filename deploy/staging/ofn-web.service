@@ -1,0 +1,20 @@
+# Fork only: OFN staging web server. Install: cp to /etc/systemd/system && systemctl enable --now
+[Unit]
+Description=Open Food Network staging (web, ofn.hof-homann.de)
+After=network.target postgresql.service redis-server.service
+
+[Service]
+User=ofn
+WorkingDirectory=/opt/ofn/app
+EnvironmentFile=/opt/ofn/ofn.env
+Environment=RAILS_ENV=production
+Environment=PATH=/opt/ofn/.rbenv/shims:/opt/ofn/.rbenv/bin:/opt/ofn/node/bin:/usr/local/bin:/usr/bin:/bin
+ExecStart=/opt/ofn/.rbenv/shims/bundle exec puma -e production -b tcp://127.0.0.1:8150 -t 2:5 -w 0
+Restart=on-failure
+RestartSec=5
+# Shared staging server: keep OFN from crowding out Shopware.
+MemoryMax=1200M
+Nice=5
+
+[Install]
+WantedBy=multi-user.target
