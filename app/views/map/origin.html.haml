@@ -1,0 +1,87 @@
+-# The origin map (feature: origin_map). The list is rendered here, the map and its markers,
+-# routes and popups by the origin-map Stimulus controller from the same data.
+- content_for(:title) do
+  = t :map_title
+
+- producers = @origin_map[:producers]
+- shops = @origin_map[:shops]
+- countries = (producers + shops).map { |point| [point[:country], point[:country_name]] }.uniq.sort_by(&:last)
+- tiles = ContentConfig.open_street_map_enabled ? ContentConfig.open_street_map_provider_name : "CartoDB.Positron"
+
+.origin-map{ data: { controller: "origin-map",
+                     "origin-map-points-value": (producers + shops).to_json,
+                     "origin-map-routes-value": @origin_map[:routes].to_json,
+                     "origin-map-tiles-value": tiles,
+                     "origin-map-labels-value": { on_sale: t("origin_map.on_sale"),
+                                                  goes_to: t("origin_map.goes_to"),
+                                                  supplied_by: t("origin_map.supplied_by"),
+                                                  open: t("origin_map.open"),
+                                                  closed: t("origin_map.closed"),
+                                                  order: t("origin_map.order_here"),
+                                                  pallet: t("origin_map.pallet"),
+                                                  confirmed: t("origin_map.confirmed"),
+                                                  producer: t("origin_map.producer"),
+                                                  shop: t("origin_map.shop") }.to_json } }
+  %aside.origin-map-panel
+    .origin-map-intro
+      %h1= t("origin_map.title")
+      %p= t("origin_map.intro")
+
+    - if countries.size > 1
+      %nav.origin-map-countries{ "aria-label": t("origin_map.filter_countries") }
+        %button.origin-map-chip{ type: "button", "aria-pressed": "true",
+                                 "data-origin-map-target": "country", "data-country": "",
+                                 "data-action": "origin-map#filterCountry" }
+          = t("origin_map.all_countries")
+        - countries.each do |iso, name|
+          %button.origin-map-chip{ type: "button", "aria-pressed": "false",
+                                   "data-origin-map-target": "country", "data-country": iso,
+                                   "data-action": "origin-map#filterCountry" }= name
+
+    .origin-map-tabs{ role: "tablist" }
+      %button.origin-map-tab{ type: "button", role: "tab", "aria-selected": "true",
+                              "data-origin-map-target": "tab", "data-kind": "producer",
+                              "data-action": "origin-map#showTab" }
+        %span.origin-map-dot.is-producer
+        = t("origin_map.producers", count: producers.size)
+      %button.origin-map-tab{ type: "button", role: "tab", "aria-selected": "false",
+                              "data-origin-map-target": "tab", "data-kind": "shop",
+                              "data-action": "origin-map#showTab" }
+        %span.origin-map-dot.is-shop
+        = t("origin_map.shops", count: shops.size)
+
+    %ol.origin-map-list
+      - (producers + shops).each do |point|
+        %li{ hidden: point[:kind] == :shop,
+             "data-origin-map-target": "item", "data-id": point[:id],
+             "data-kind": point[:kind], "data-country": point[:country] }
+          %button.origin-map-item{ type: "button", "data-action": "origin-map#focus mouseenter->origin-map#highlight mouseleave->origin-map#unhighlight" }
+            - if point[:logo]
+              = image_tag point[:logo], alt: "", class: "origin-map-logo", loading: "lazy"
+            - else
+              %span.origin-map-logo.is-placeholder{ class: "is-#{point[:kind]}" }= point[:name].first
+            %span.origin-map-item-text
+              %strong= point[:name]
+              %small= point[:place]
+              - if point[:kind] == :producer && point[:products].any?
+                %small.origin-map-products= point[:products].join(", ")
+              - elsif point[:kind] == :shop
+                %small.origin-map-status{ class: ("is-open" if point[:open]) }
+                  = point[:open] ? t("origin_map.open") : t("origin_map.closed")
+
+    - if producers.empty? && shops.empty?
+      %p.origin-map-empty= t("origin_map.empty")
+
+  .origin-map-stage
+    .origin-map-canvas{ "data-origin-map-target": "map", role: "region",
+                        "aria-label": t("origin_map.title") }
+    .origin-map-legend
+      %span
+        %span.origin-map-dot.is-producer
+        = t("origin_map.producer")
+      %span
+        %span.origin-map-dot.is-shop
+        = t("origin_map.shop")
+      %span
+        %span.origin-map-line
+        = t("origin_map.route")

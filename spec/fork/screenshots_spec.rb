@@ -118,6 +118,15 @@ RSpec.describe "Design screenshots", type: :system do
     Flipper.enable(:home_products)
     Flipper.enable(:product_grid_view)
     Flipper.enable(:pallet_progress)
+    Flipper.enable(:origin_map)
+
+    {
+      hub => [52.055, 7.357], food_coop => [51.9695, 7.6195], ferrer => [39.1506, -0.4353],
+      molina => [36.7806, -4.1004], jimenez => [37.7236, -3.3806],
+      esposito => [40.6083, 14.9869], russo => [37.0755, 15.2866],
+    }.each do |enterprise, (latitude, longitude)|
+      enterprise.address.update_columns(latitude:, longitude:)
+    end
 
     order_cycle.exchanges.outgoing.each do |exchange|
       exchange.enterprise_fees << create(
@@ -143,6 +152,11 @@ RSpec.describe "Design screenshots", type: :system do
 
     visit root_path(origin: "IT")
     shot("02-home-origin-italy", :desktop)
+
+    visit map_path
+    expect(page).to have_selector ".origin-map-marker"
+    shot("07-origin-map", :desktop)
+    shot("07-origin-map", :mobile)
 
     visit shops_path
     expect(page).to have_content "Hof Homann eG"

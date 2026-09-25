@@ -53,10 +53,18 @@ REGIONS.each do |iso, regions|
   end
 end
 
-def address(country, city, street, zipcode, state: nil, region: nil)
+# Coordinates put the enterprises on the origin map (the coordinator stays off the map).
+COORDINATES = {
+  "Laer" => [52.0550, 7.3570], "Münster" => [51.9695, 7.6195], "Alzira" => [39.1506, -0.4353],
+  "Vélez-Málaga" => [36.7806, -4.1004], "Bélmez de la Moraleda" => [37.7236, -3.3806],
+  "Battipaglia" => [40.6083, 14.9869], "Siracusa" => [37.0755, 15.2866],
+}.freeze
+
+def address(country, city, street, zipcode, state: nil, region: nil, locate: true)
   state ||= country.states.find_by!(name: region) if region
+  latitude, longitude = COORDINATES[city] if locate
   Spree::Address.new(firstname: "Beispiel", lastname: "Betrieb", address1: street, city:,
-                     zipcode:, phone: "+49 2554 0000", country:, state:)
+                     zipcode:, phone: "+49 2554 0000", country:, state:, latitude:, longitude:)
 end
 
 def enterprise(owner, **attributes)
@@ -68,7 +76,8 @@ ActiveRecord::Base.transaction do
   coordinator = enterprise(
     admin, name: COORDINATOR_NAME, sells: "any", is_primary_producer: false,
            description: "Organisiert die Palette aus dem Süden (Beispiel)",
-           address: address(germany, "Laer", "Borghorster Str. 68", "48366", state: nrw)
+           address: address(germany, "Laer", "Borghorster Str. 68", "48366", state: nrw,
+                            locate: false)
   )
   hubs = [
     ["Hof Homann eG (Beispiel-Hub)", "Borghorster Str. 68", "Laer", "48366",

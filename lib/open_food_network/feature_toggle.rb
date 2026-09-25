@@ -73,6 +73,10 @@ module OpenFoodNetwork
       "product_grid_view" => <<~DESC,
         Display shop products as a grid.
       DESC
+      "origin_map" => <<~DESC,
+        Replace the map with the origin map: producers and pick-up points on OpenStreetMap,
+        with the routes of open order cycles between them. No Google Maps needed.
+      DESC
       "pallet_progress" => <<~DESC,
         Order cycles can track a shared pallet: the coordinator sets its capacity in kg and the
         minimum fill for delivery, and shops show how full it is. Activate for coordinators.

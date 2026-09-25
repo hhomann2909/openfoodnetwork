@@ -535,6 +535,29 @@ en:
         title: Other Failure (%{count} orders)
         explainer: Automatic processing of these orders failed for an unknown reason. This should not occur, please contact us if you are seeing this.
 
+  origin_map:
+    title: "Where your food comes from"
+    intro: "Producers sell directly. Their orders travel together to a pick-up point near you."
+    filter_countries: "Filter by country"
+    all_countries: "All countries"
+    producers:
+      one: "1 producer"
+      other: "%{count} producers"
+    shops:
+      one: "1 pick-up point"
+      other: "%{count} pick-up points"
+    producer: "Producer"
+    shop: "Pick-up point"
+    route: "Open order cycle"
+    on_sale: "On sale now"
+    goes_to: "Delivered to"
+    supplied_by: "Supplied by"
+    open: "Open for orders"
+    closed: "No open order cycle"
+    order_here: "Order here"
+    pallet: "Shared pallet"
+    confirmed: "delivery confirmed"
+    empty: "No producers or pick-up points with a location yet."
   home_products:
     title: "Available now"
     intro: "Order directly from producers and pick up at a shop near you."

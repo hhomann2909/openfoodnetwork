@@ -362,6 +362,29 @@ de_DE:
       other:
         title: Andere Fehler (%{count} Bestellungen)
         explainer: Die automatische Verarbeitung dieser Bestellungen ist aus einem unbekannten Grund gescheitert. Dies sollte nicht geschehen, Bitte kontaktieren Sie uns, wenn Sie dies sehen.
+  origin_map:
+    title: "Woher dein Essen kommt"
+    intro: "Erzeuger verkaufen direkt. Ihre Bestellungen reisen gemeinsam zu einem Abholpunkt in deiner Nähe."
+    filter_countries: "Nach Land filtern"
+    all_countries: "Alle Länder"
+    producers:
+      one: "1 Erzeuger"
+      other: "%{count} Erzeuger"
+    shops:
+      one: "1 Abholpunkt"
+      other: "%{count} Abholpunkte"
+    producer: "Erzeuger"
+    shop: "Abholpunkt"
+    route: "Offener Bestellzyklus"
+    on_sale: "Jetzt bestellbar"
+    goes_to: "Wird geliefert an"
+    supplied_by: "Beliefert von"
+    open: "Jetzt bestellbar"
+    closed: "Kein offener Bestellzyklus"
+    order_here: "Hier bestellen"
+    pallet: "Gemeinsame Palette"
+    confirmed: "Lieferung sicher"
+    empty: "Noch keine Erzeuger oder Abholpunkte mit Standort."
   home_products:
     title: "Jetzt bestellbar"
     intro: "Direkt bei den Erzeugern bestellen und im Laden in deiner Nähe abholen."
