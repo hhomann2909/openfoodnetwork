@@ -22,7 +22,8 @@
         .with-tip{ 'data-powertip' => t('.pallet_capacity_tip') }
           %a= t('admin.whats_this')
       .omega.eight.columns
-        = f.number_field :preferred_pallet_capacity, min: 0, step: 1
+        = f.number_field :preferred_pallet_capacity, min: 0, step: 1,
+          value: @order_cycle.preferred_pallet_capacity.to_d.to_s("F").delete_suffix(".0")
     .row
       .alpha.three.columns
         = f.label :preferred_pallet_minimum_fill, t('.pallet_minimum_fill')

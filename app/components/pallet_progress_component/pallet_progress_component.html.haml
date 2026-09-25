@@ -1,7 +1,7 @@
 .pallet-progress{ class: [("confirmed" if progress.confirmed?), ("compact" if compact)] }
   .pallet-progress-header
     %span.pallet-progress-title
-      = t("components.pallet_progress.title")
+      = t("components.pallet_progress.#{compact ? 'title_short' : 'title'}")
       %span.pallet-progress-fill= display_percent(progress.fill)
     - if status
       %span.pallet-progress-status= status

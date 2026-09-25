@@ -4676,6 +4676,7 @@ de_DE:
       closes_in: "Bestellschluss in %{time}"
     pallet_progress:
       title: "Gemeinsame Palette"
+      title_short: "Palette"
       kg: "%{weight} kg"
       confirmed: "Lieferung sicher"
       to_confirm: "noch %{weight} bis zur Lieferung"

@@ -1,4 +1,4 @@
--# locals: (product:, available_variant_ids: nil)
+-# locals: (product:, available_variant_ids: nil, show_price_breakdown: false)
 .row
   .columns.small-12.medium-6.large-6.product-header
     %h3
@@ -26,6 +26,10 @@
         %p.text-small
           - # description is sanitized in Spree::Product#description method
           = product.description.html_safe
+
+    - if show_price_breakdown
+      - product.variants.each do |variant|
+        = render PriceBreakdownComponent.new(variant:, show_variant_name: !product.single_variant?)
 
   .columns.small-12.medium-6.large-6.product-img
     - carousel_images = product_carousel_images_data(product, available_variant_ids:)

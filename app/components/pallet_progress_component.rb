@@ -24,8 +24,8 @@ class PalletProgressComponent < ViewComponent::Base
     helpers.number_to_percentage(percent(share), precision: 0)
   end
 
-  def display_weight(kg)
-    t("components.pallet_progress.kg", weight: helpers.number_with_delimiter(kg.round.to_i))
+  def display_weight(weight)
+    t("components.pallet_progress.kg", weight: helpers.number_with_delimiter(weight.round.to_i))
   end
 
   def status

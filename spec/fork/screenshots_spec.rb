@@ -12,6 +12,9 @@ RSpec.describe "Design screenshots", type: :system do
 
   def shot(name, size)
     page.driver.resize(*SIZES.fetch(size))
+    # The "Interested in getting on the Open Food Network?" bar is fixed to the viewport and would
+    # land in the middle of a full page capture.
+    page.execute_script("document.querySelectorAll('.page-alert').forEach((el) => el.remove())")
     # Scroll through the page once so lazy loaded images are in before the full page capture.
     page.execute_script("window.scrollTo(0, document.body.scrollHeight)")
     sleep 1

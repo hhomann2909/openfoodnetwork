@@ -5261,6 +5261,7 @@ en:
       closes_in: "Orders close in %{time}"
     pallet_progress:
       title: "Shared pallet"
+      title_short: "Pallet"
       kg: "%{weight} kg"
       confirmed: "Delivery confirmed"
       to_confirm: "%{weight} more for delivery"
