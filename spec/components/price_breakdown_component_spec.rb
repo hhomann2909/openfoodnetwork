@@ -43,7 +43,7 @@ RSpec.describe PriceBreakdownComponent, type: :component do
   it "draws each part of the price to scale" do
     render_inline(described_class.new(variant: build_variant(fees: [freight, shop_fee])))
 
-    widths = page.all(".price-breakdown-bar .segment").map { |segment| segment[:style] }
+    widths = page.all(".price-breakdown-bar .segment").pluck(:style)
     expect(widths).to eq ["width: 79.0%", "width: 12.0%", "width: 9.0%"]
   end
 
