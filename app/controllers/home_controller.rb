@@ -3,6 +3,8 @@
 class HomeController < BaseController
   layout 'darkswarm'
 
+  helper CountryNameHelper
+
   helper_method :home_product_offers, :home_product_origins, :home_product_origin
 
   def index

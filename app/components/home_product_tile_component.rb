@@ -5,6 +5,8 @@
 # Unlike ProductTileComponent it has no cart controls: the home page belongs to no shop or order
 # cycle, so the visitor picks the product here and orders it in the shop.
 class HomeProductTileComponent < ViewComponent::Base
+  include CountryNameHelper
+
   NAME_SEPARATOR = " | "
 
   def initialize(offer:)
@@ -34,7 +36,7 @@ class HomeProductTileComponent < ViewComponent::Base
   # Where the product comes from, so a visitor sees at a glance what travelled from afar.
   def origin
     country = HomeProductsService.origin_of(product)
-    helpers.country_display_name(country) if country
+    country_display_name(country) if country
   end
 
   def product_name
