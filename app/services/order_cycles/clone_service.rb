@@ -13,6 +13,8 @@ module OrderCycles
       oc.coordinator_fee_ids = @original_order_cycle.coordinator_fee_ids
       oc.preferred_product_selection_from_coordinator_inventory_only =
         @original_order_cycle.preferred_product_selection_from_coordinator_inventory_only
+      oc.preferred_pallet_capacity = @original_order_cycle.preferred_pallet_capacity
+      oc.preferred_pallet_minimum_fill = @original_order_cycle.preferred_pallet_minimum_fill
       oc.schedule_ids = @original_order_cycle.schedule_ids
       oc.save!
       @original_order_cycle.exchanges.each { |e| e.clone!(oc) }

@@ -21,6 +21,25 @@ RSpec.describe ProductsController do
     # distributor is derived from the current order
     before { session_hash[:order_id] = order.id }
 
+    describe "shared pallet" do
+      before do
+        order_cycle.update!(preferred_pallet_capacity: 800, preferred_pallet_minimum_fill: 80)
+      end
+
+      it "shows how full it is", feature: :pallet_progress do
+        get order_cycle_products_path(order_cycle.id)
+
+        expect(response.body).to include "pallet-progress"
+        expect(response.body).to include "Shared pallet"
+      end
+
+      it "stays hidden while the feature is off" do
+        get order_cycle_products_path(order_cycle.id)
+
+        expect(response.body).not_to include "pallet-progress"
+      end
+    end
+
     it "loads available products" do
       get order_cycle_products_path(order_cycle.id)
 

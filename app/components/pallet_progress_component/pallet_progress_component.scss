@@ -1,0 +1,88 @@
+@use "../../webpacker/css/darkswarm/branding" as b;
+
+.pallet-progress {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid b.$light-grey;
+  border-radius: 0.5rem;
+  background: b.$white;
+
+  .pallet-progress-header {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.25rem 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .pallet-progress-title {
+    font-weight: bold;
+  }
+
+  .pallet-progress-fill {
+    margin-left: 0.5rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .pallet-progress-status {
+    color: b.$orange-600;
+    font-weight: 600;
+  }
+
+  &.confirmed .pallet-progress-status {
+    color: b.$clr-turquoise;
+  }
+
+  .pallet-progress-bar {
+    position: relative;
+    height: 0.625rem;
+    border-radius: 0.3125rem;
+    background: b.$grey-100;
+  }
+
+  .pallet-progress-bar-fill {
+    position: absolute;
+    inset: 0 auto 0 0;
+    border-radius: 0.3125rem;
+    background: b.$orange-500;
+  }
+
+  &.confirmed .pallet-progress-bar-fill {
+    background: b.$clr-turquoise;
+  }
+
+  .pallet-progress-minimum {
+    position: absolute;
+    top: -0.1875rem;
+    bottom: -0.1875rem;
+    width: 2px;
+    background: b.$grey-800;
+  }
+
+  .pallet-progress-detail,
+  .pallet-progress-explanation {
+    margin: 0.5rem 0 0;
+    font-size: 0.875rem;
+  }
+
+  .pallet-progress-explanation {
+    color: b.$grey-650;
+  }
+
+  &.compact {
+    margin: 0.5rem 0 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font-size: 0.8125rem;
+
+    .pallet-progress-header {
+      margin-bottom: 0.25rem;
+    }
+
+    .pallet-progress-title {
+      font-weight: normal;
+      color: b.$grey-650;
+    }
+  }
+}

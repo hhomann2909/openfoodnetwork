@@ -66,6 +66,12 @@ class HomeProductTileComponent < ViewComponent::Base
     end
   end
 
+  def pallet_progress
+    return unless OpenFoodNetwork::FeatureToggle.enabled?(:pallet_progress, order_cycle.coordinator)
+
+    OrderCycles::PalletProgress.new(order_cycle)
+  end
+
   def closes_in
     t("components.home_product_tile.closes_in",
       time: helpers.distance_of_time_in_words_to_now(order_cycle.orders_close_at))

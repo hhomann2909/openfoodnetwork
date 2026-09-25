@@ -15,6 +15,22 @@
         = f.radio_button :preferred_product_selection_from_coordinator_inventory_only, false
         = f.label :preferred_product_selection_from_coordinator_inventory_only, t('.preferred_product_selection_from_coordinator_inventory_only_all')
 
+  - if OpenFoodNetwork::FeatureToggle.enabled?(:pallet_progress, @order_cycle.coordinator)
+    .row
+      .alpha.three.columns
+        = f.label :preferred_pallet_capacity, t('.pallet_capacity')
+        .with-tip{ 'data-powertip' => t('.pallet_capacity_tip') }
+          %a= t('admin.whats_this')
+      .omega.eight.columns
+        = f.number_field :preferred_pallet_capacity, min: 0, step: 1
+    .row
+      .alpha.three.columns
+        = f.label :preferred_pallet_minimum_fill, t('.pallet_minimum_fill')
+        .with-tip{ 'data-powertip' => t('.pallet_minimum_fill_tip') }
+          %a= t('admin.whats_this')
+      .omega.eight.columns
+        = f.number_field :preferred_pallet_minimum_fill, min: 0, max: 100, step: 1
+
   .row
     .alpha.three.columns
       = f.label :automatic_notifications, t('.automatic_notifications')

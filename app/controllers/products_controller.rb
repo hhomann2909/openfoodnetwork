@@ -6,6 +6,7 @@ class ProductsController < BaseController
 
     @variants_in_cart = current_order.line_items.to_h { |li| [li.variant.id, li.quantity] }
     @low_stock_display = distributor.preferred_product_low_stock_display
+    @pallet_progress = pallet_progress
   end
 
   private
@@ -41,6 +42,13 @@ class ProductsController < BaseController
 
   def inventory_enabled?
     OpenFoodNetwork::FeatureToggle.enabled?(:inventory, distributor)
+  end
+
+  def pallet_progress
+    return unless order_cycle
+    return unless OpenFoodNetwork::FeatureToggle.enabled?(:pallet_progress, order_cycle.coordinator)
+
+    OrderCycles::PalletProgress.new(order_cycle)
   end
 
   def variant_tag_enabled?

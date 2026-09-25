@@ -1,0 +1,15 @@
+.pallet-progress{ class: [("confirmed" if progress.confirmed?), ("compact" if compact)] }
+  .pallet-progress-header
+    %span.pallet-progress-title
+      = t("components.pallet_progress.title")
+      %span.pallet-progress-fill= display_percent(progress.fill)
+    - if status
+      %span.pallet-progress-status= status
+  .pallet-progress-bar{ role: "progressbar", "aria-label": bar_label, "aria-valuemin": 0,
+                        "aria-valuemax": 100, "aria-valuenow": percent(progress.fill) }
+    %span.pallet-progress-bar-fill{ style: "width: #{percent(progress.fill)}%" }
+    - if progress.minimum?
+      %span.pallet-progress-minimum{ style: "left: #{percent(progress.minimum_fill)}%" }
+  - unless compact
+    %p.pallet-progress-detail= detail
+    %p.pallet-progress-explanation= explanation

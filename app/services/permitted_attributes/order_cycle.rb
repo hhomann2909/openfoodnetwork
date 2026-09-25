@@ -16,6 +16,7 @@ module PermittedAttributes
       [
         :name, :orders_open_at, :orders_close_at, :coordinator_id,
         :preferred_product_selection_from_coordinator_inventory_only,
+        :preferred_pallet_capacity, :preferred_pallet_minimum_fill,
         :automatic_notifications,
         { schedule_ids: [], selected_distributor_payment_method_ids: [],
           selected_distributor_shipping_method_ids: [], coordinator_fee_ids: [] }

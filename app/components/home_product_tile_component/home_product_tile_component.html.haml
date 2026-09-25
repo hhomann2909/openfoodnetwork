@@ -17,3 +17,5 @@
         %span.unit-price= unit_price
     %p.shop= sold_at
     %p.closes-in= closes_in
+    - if (progress = pallet_progress)
+      = render PalletProgressComponent.new(progress:, compact: true)

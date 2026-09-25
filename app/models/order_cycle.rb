@@ -49,6 +49,10 @@ class OrderCycle < ApplicationRecord
   validate :orders_close_at_after_orders_open_at?
 
   preference :product_selection_from_coordinator_inventory_only, :boolean, default: false
+  # Shared pallet (feature: pallet_progress): capacity in kg, and the percentage of it that must
+  # be ordered for the delivery to go ahead. Zero turns each off.
+  preference :pallet_capacity, :decimal, default: 0
+  preference :pallet_minimum_fill, :integer, default: 0
 
   scope :active, lambda {
     where('order_cycles.orders_open_at <= ? AND order_cycles.orders_close_at >= ?',
