@@ -16,7 +16,7 @@ $top-bar: 65px;
   background: b.$white;
 
   @include m.breakpoint(tablet) {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     grid-template-rows: 58vh auto;
     height: auto;
   }
@@ -25,6 +25,7 @@ $top-bar: 65px;
 .origin-map-panel {
   display: flex;
   flex-direction: column;
+  min-width: 0;
   min-height: 0;
   border-right: 1px solid b.$grey-200;
   background: b.$white;
@@ -251,7 +252,9 @@ $top-bar: 65px;
   bottom: 1rem;
   z-index: 500;
   display: flex;
-  gap: 1rem;
+  flex-wrap: wrap;
+  gap: 0.25rem 1rem;
+  max-width: calc(100% - 5rem);
   padding: 0.5rem 0.875rem;
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.94);

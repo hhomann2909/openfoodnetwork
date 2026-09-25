@@ -25,6 +25,11 @@ export default class extends Controller {
     this.#drawRoutes();
     this.#drawMarkers();
     this.#fitToVisible();
+    // The grid may settle its size after connect (fonts, phone layout): fit again once it has.
+    requestAnimationFrame(() => {
+      this.map.invalidateSize();
+      this.#fitToVisible();
+    });
   }
 
   disconnect() {
