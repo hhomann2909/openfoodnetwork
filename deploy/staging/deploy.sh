@@ -1,5 +1,5 @@
 #!/bin/bash
-# Fork only: deploys this branch to the OFN staging instance (ofn.hof-homann.de) on the shared
+# Fork only: deploys this branch to the OFN staging instance (ofneurope.hof-homann.de) on the shared
 # staging server. Run as root:  /opt/ofn/app/deploy/staging/deploy.sh [branch]
 #
 # Layout: user "ofn", home /opt/ofn, app in /opt/ofn/app, settings and secrets in /opt/ofn/ofn.env
@@ -26,5 +26,5 @@ as_ofn "bin/rails db:migrate"
 systemctl restart ofn-web ofn-worker
 sleep 5
 systemctl is-active ofn-web ofn-worker
-curl -s -o /dev/null -w "home: %{http_code}\n" -H "Host: ofn.hof-homann.de" \
+curl -s -o /dev/null -w "home: %{http_code}\n" -H "Host: ofneurope.hof-homann.de" \
   -H "X-Forwarded-Proto: https" http://127.0.0.1:8150/

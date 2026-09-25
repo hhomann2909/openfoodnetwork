@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Fork only: demo data for the OFN staging instance (ofn.hof-homann.de), so the south-north
+# Fork only: demo data for the OFN staging instance (ofneurope.hof-homann.de), so the south-north
 # marketplace features can be seen right away. Everything is marked as an example ("Beispiel").
 # Run once after seeding:  bin/rails runner deploy/staging/demo_data.rb
 #
