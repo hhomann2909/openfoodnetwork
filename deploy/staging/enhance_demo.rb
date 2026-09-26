@@ -6,7 +6,6 @@
 #   bin/rails runner deploy/staging/enhance_demo.rb
 
 IMAGES = Rails.root.join("spec/fixtures/files/fork") unless defined?(IMAGES)
-PALLET_TARGET_KG = 600
 
 def attach(record, attachment, file)
   return if record.public_send(attachment).attached?
@@ -80,21 +79,48 @@ if (ferrer = Enterprise.find_by(name: "Finca Els Tarongers (Beispiel)"))
   ferrer.set_producer_property("Bio", "ES-ECO-020-CV (Beispiel)")
 end
 
+# One pallet per region: [pallet name, producers, capacity kg, minimum %, product to fill with,
+# target kg]. Valencia stays just below its minimum for the live demo; the others show the range
+# from just started to already confirmed.
+REGION_PALLETS = [
+  ["Valencia", ["Finca Els Tarongers (Beispiel)"], 800, 80, "Bio-Orangen Navelina", 600],
+  ["Andalusien", ["Huerta La Molina (Beispiel)", "Olivar Sierra Mágina (Beispiel)"], 600, 70,
+   "Avocado Hass", 324],
+  ["Kampanien (Kühlware)", ["Caseificio Santa Lucia (Beispiel)"], 240, 60,
+   "Mozzarella di Bufala Campana DOP", 211],
+  ["Sizilien", ["Agrumi Russo (Beispiel)"], 500, 70, "Bio-Zitronen Femminello", 155],
+].freeze
+
 order_cycle = OrderCycle.find_by("name LIKE ?", "%Münsterland (Beispiel)%")
 if order_cycle
-  progress = OrderCycles::PalletProgress.new(order_cycle)
-  oranges = Spree::Variant.joins(:product).find_by(spree_products: { name: "Bio-Orangen Navelina" })
   hub = Enterprise.find_by(name: "Hof Homann eG (Beispiel-Hub)")
-  missing = PALLET_TARGET_KG - progress.ordered_weight
-  boxes = (missing / oranges.weight).floor
-  boxes.times do |index|
-    order = Spree::Order.create!(distributor: hub, order_cycle:,
-                                 email: "beispiel-auffuellen-#{index}@example.org")
-    order.line_items.create!(variant: oranges, quantity: 1, price: oranges.price)
-    order.update_columns(state: "complete", completed_at: Time.zone.now)
+  pallets = OrderCycles::Pallets
+
+  REGION_PALLETS.each do |pallet_name, producer_names, capacity, minimum, product_name, target|
+    producers = Enterprise.where(name: producer_names)
+    order_cycle.exchanges.incoming.where(sender: producers).
+      update_all(pallet_name:, pallet_capacity: capacity, pallet_minimum_fill: minimum)
+
+    pallet = pallets.new(order_cycle.reload).for_producer(producers.first.id)
+    variant = Spree::Variant.joins(:product).find_by!(spree_products: { name: product_name })
+    missing_units = ((target - pallet.ordered_weight) / variant.weight).floor
+    index = 0
+    while missing_units.positive?
+      quantity = [missing_units, 20].min
+      order = Spree::Order.create!(
+        distributor: hub, order_cycle:,
+        email: "beispiel-#{pallet_name.parameterize}-#{index}@example.org"
+      )
+      order.line_items.create!(variant:, quantity:, price: variant.price)
+      order.update_columns(state: "complete", completed_at: Time.zone.now)
+      missing_units -= quantity
+      index += 1
+    end
   end
-  puts "Pallet: #{OrderCycles::PalletProgress.new(order_cycle).ordered_weight.to_i} kg " \
-       "of #{progress.capacity.to_i} kg"
+
+  pallets.new(order_cycle.reload).all.each do |pallet|
+    puts "Pallet #{pallet.name}: #{pallet.ordered_weight.to_i} of #{pallet.capacity.to_i} kg "          "(#{(pallet.fill * 100).round} %, minimum #{(pallet.minimum_fill * 100).round} %)"
+  end
 end
 
 puts "Demo enterprises enhanced."
