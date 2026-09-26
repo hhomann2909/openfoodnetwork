@@ -12,13 +12,13 @@ module OrderCycles
       @order_cycle = order_cycle
     end
 
-    def all
-      @all ||= exchange_pallets.presence || order_cycle_pallet
+    def list
+      @list ||= exchange_pallets.presence || order_cycle_pallet
     end
 
     # The pallet carrying a producer's products, if any.
     def for_producer(producer_id)
-      all.find { |pallet| pallet.carries?(producer_id) }
+      list.find { |pallet| pallet.carries?(producer_id) }
     end
 
     private

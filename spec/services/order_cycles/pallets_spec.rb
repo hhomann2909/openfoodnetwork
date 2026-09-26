@@ -30,7 +30,7 @@ RSpec.describe OrderCycles::Pallets do
   it "gives a producer with a capacity its own pallet, named after the producer" do
     exchange_of(esposito).update!(pallet_capacity: 240, pallet_minimum_fill: 60)
 
-    pallet = pallets.all.sole
+    pallet = pallets.list.sole
     expect(pallet.name).to eq "Caseificio Esposito"
     expect(pallet.capacity).to eq 240
     expect(pallet.minimum_fill).to eq 0.6
@@ -43,8 +43,8 @@ RSpec.describe OrderCycles::Pallets do
     exchange_of(molina).update!(pallet_name: "valencia ", pallet_capacity: 600)
     exchange_of(esposito).update!(pallet_capacity: 240)
 
-    expect(pallets.all.map(&:name)).to eq ["Valencia", "Caseificio Esposito"]
-    valencia = pallets.all.first
+    expect(pallets.list.map(&:name)).to eq ["Valencia", "Caseificio Esposito"]
+    valencia = pallets.list.first
     expect(valencia.producer_ids).to contain_exactly(ferrer.id, molina.id)
     expect(valencia.capacity).to eq 800
     expect(valencia.minimum_fill).to eq 0.8
@@ -69,13 +69,13 @@ RSpec.describe OrderCycles::Pallets do
   it "falls back to the order cycle's pallet for everyone" do
     order_cycle.update!(preferred_pallet_capacity: 800)
 
-    pallet = pallets.all.sole
+    pallet = pallets.list.sole
     expect(pallet.name).to be_nil
     expect(pallets.for_producer(ferrer.id)).to eq pallet
     expect(pallets.for_producer(esposito.id)).to eq pallet
   end
 
   it "has no pallets when none are set" do
-    expect(pallets.all).to be_empty
+    expect(pallets.list).to be_empty
   end
 end

@@ -13,6 +13,6 @@ count = demo_orders.count
 demo_orders.update_all(state: "canceled")
 
 puts "Cancelled #{count} demo order(s)."
-OrderCycles::Pallets.new(order_cycle).all.each do |pallet|
+OrderCycles::Pallets.new(order_cycle).list.each do |pallet|
   puts "Pallet #{pallet.name || 'order cycle'}: #{pallet.ordered_weight.to_i} of "        "#{pallet.capacity.to_i} kg (#{(pallet.fill * 100).round} %)"
 end

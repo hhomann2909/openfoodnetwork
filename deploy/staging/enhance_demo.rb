@@ -118,7 +118,7 @@ if order_cycle
     end
   end
 
-  pallets.new(order_cycle.reload).all.each do |pallet|
+  pallets.new(order_cycle.reload).list.each do |pallet|
     puts "Pallet #{pallet.name}: #{pallet.ordered_weight.to_i} of #{pallet.capacity.to_i} kg "          "(#{(pallet.fill * 100).round} %, minimum #{(pallet.minimum_fill * 100).round} %)"
   end
 end
