@@ -46,6 +46,7 @@ class ProductsController < BaseController
 
   def pallets
     return [] unless order_cycle
+
     coordinator = order_cycle.coordinator
     return [] unless OpenFoodNetwork::FeatureToggle.enabled?(:pallet_progress, coordinator)
 
