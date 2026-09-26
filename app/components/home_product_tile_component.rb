@@ -57,4 +57,12 @@ class HomeProductTileComponent < ViewComponent::Base
 
     helpers.unit_price_with_unit(product.variant)
   end
+
+  # The pallet this product travels on, when its order cycle tracks pallets.
+  def pallet_progress
+    return unless product.single_producer?
+    return unless OpenFoodNetwork::FeatureToggle.enabled?(:pallet_progress, order_cycle.coordinator)
+
+    OrderCycles::Pallets.new(order_cycle).for_producer(product.producers.first.id)
+  end
 end
