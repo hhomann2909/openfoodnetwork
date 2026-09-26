@@ -8,7 +8,7 @@
     .row
       .small-12.large-6.columns.origin-hero-text
         - if countries.any?
-          %p.origin-hero-kicker= t("origin_hero.kicker", countries: countries.to_sentence)
+          %p.origin-hero-kicker= t("origin_hero.kicker", countries: countries.to_sentence(two_words_connector: t("origin_hero.and"), last_word_connector: t("origin_hero.and")))
         %h1= t("origin_hero.title")
         %p.origin-hero-lead= t("origin_hero.lead")
         .origin-hero-actions

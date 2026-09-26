@@ -17,4 +17,4 @@
         %span.unit-price= unit_price
     - if (progress = pallet_progress)
       = render PalletProgressComponent.new(progress:, compact: true)
-    %span.home-product-cta= t("components.home_product_tile.order", shop: distributor.name)
+    %span.home-product-cta= t("components.home_product_tile.order")

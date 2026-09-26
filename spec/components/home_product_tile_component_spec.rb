@@ -32,7 +32,7 @@ RSpec.describe HomeProductTileComponent, type: :component do
     render_tile
 
     expect(page).to have_link href: "/hof-homann/shop?product=1"
-    expect(page).to have_selector ".home-product-cta", text: "Order at Hof Homann"
+    expect(page).to have_selector ".home-product-cta", text: "Order now"
   end
 
   it "names the producer and the country the product comes from" do

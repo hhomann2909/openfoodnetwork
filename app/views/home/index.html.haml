@@ -19,8 +19,10 @@
       - if feature?(:home_products, spree_current_user)
         = render "home/products"
         = render "home/origin_steps"
-      = render "home/brandstory"
-      = render "home/system"
+      - else
+        -# OFN's own story of local shopping; the marketplace tells its own above.
+        = render "home/brandstory"
+        = render "home/system"
       = render "home/cta"
       = render "home/stats"
 

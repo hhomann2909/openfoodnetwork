@@ -363,6 +363,7 @@ de_DE:
         title: Andere Fehler (%{count} Bestellungen)
         explainer: Die automatische Verarbeitung dieser Bestellungen ist aus einem unbekannten Grund gescheitert. Dies sollte nicht geschehen, Bitte kontaktieren Sie uns, wenn Sie dies sehen.
   origin_hero:
+    and: " und "
     kicker: "Direkt von kleinen Höfen aus %{countries}"
     title: "Orangen vom Baum, Mozzarella von der Käserei. Abholen um die Ecke."
     lead: "Höfe im Süden verkaufen direkt an dich. Deine Bestellung reist gemeinsam mit anderen auf einer Palette zu einem Hofladen oder einer Food-Coop in deiner Nähe. So bleibt mehr vom Preis bei denen, die dein Essen anbauen."
@@ -4727,7 +4728,7 @@ de_DE:
     product_tile:
       from_price: "von"
     home_product_tile:
-      order: "Bei %{shop} bestellen"
+      order: "Jetzt bestellen"
       multiple_producers: "Mehrere Erzeuger"
       from_price: "ab"
       sold_at: "bei %{shop}"

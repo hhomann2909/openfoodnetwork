@@ -63,6 +63,12 @@
     font-weight: 600;
   }
 
+  .pallet-progress-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .pallet-progress-fill {
     margin-left: 0.375rem;
     color: b.$orange-600;
@@ -151,17 +157,23 @@
       white-space: nowrap;
     }
 
+    // The pallet's name gives way first; the fill and what is missing always stay readable.
     .pallet-progress-title {
+      display: flex;
+      min-width: 0;
       font-weight: normal;
+
+      .pallet-progress-fill {
+        flex: none;
+      }
     }
 
     .pallet-progress-status {
-      overflow: hidden;
+      flex: none;
       padding: 0;
       background: none;
       color: b.$grey-650;
       font-size: inherit;
-      text-overflow: ellipsis;
     }
 
     .pallet-progress-bar {

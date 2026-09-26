@@ -536,6 +536,7 @@ en:
         explainer: Automatic processing of these orders failed for an unknown reason. This should not occur, please contact us if you are seeing this.
 
   origin_hero:
+    and: " and "
     kicker: "Straight from small farms in %{countries}"
     title: "Oranges from the tree, mozzarella from the dairy. Picked up around the corner."
     lead: "Farmers in the south sell to you directly. Your orders travel together on a pallet to a farm shop or food co-op near you, so more of the price stays with the people who grow your food."
@@ -5312,7 +5313,7 @@ en:
       multiple_options: "multiple options"
       from_price: "from"
     home_product_tile:
-      order: "Order at %{shop}"
+      order: "Order now"
       multiple_producers: "Multiple producers"
       from_price: "from"
       sold_at: "at %{shop}"
