@@ -33,9 +33,20 @@
     background: b.$grey-050;
     font-size: 0.8125rem;
 
+    // Cards are narrow: name and fill on the first line, what is missing on the second.
+    .pallet-progress-header {
+      flex-wrap: wrap;
+      row-gap: 0.125rem;
+    }
+
     .pallet-progress-title {
+      flex: 1 1 100%;
       color: b.$grey-800;
       font-weight: 600;
+    }
+
+    .pallet-progress-status {
+      flex: 1 1 100%;
     }
 
     .pallet-progress-bar {
