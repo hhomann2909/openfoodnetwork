@@ -47,6 +47,13 @@ RSpec.describe PalletProgressComponent, type: :component do
     expect(page).not_to have_selector ".pallet-progress-status"
   end
 
+  it "can leave the explanation to a list of pallets" do
+    render_inline(described_class.new(progress: progress, explain: false))
+
+    expect(page).to have_selector ".pallet-progress-detail"
+    expect(page).not_to have_selector ".pallet-progress-explanation"
+  end
+
   it "leaves out the details when compact" do
     render_inline(described_class.new(progress: progress, compact: true))
 

@@ -3,9 +3,11 @@
 # Shows how full the shared pallet of an order cycle is, and whether the delivery is confirmed
 # (feature: pallet_progress). The compact version fits in a product tile.
 class PalletProgressComponent < ViewComponent::Base
-  def initialize(progress:, compact: false)
+  # explain: false leaves out the sentence on how pallets work, for lists that explain it once.
+  def initialize(progress:, compact: false, explain: true)
     @progress = progress
     @compact = compact
+    @explain = explain
   end
 
   def render?
@@ -14,7 +16,7 @@ class PalletProgressComponent < ViewComponent::Base
 
   private
 
-  attr_reader :progress, :compact
+  attr_reader :progress, :compact, :explain
 
   def percent(share)
     (share * 100).round.to_i

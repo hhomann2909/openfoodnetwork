@@ -13,4 +13,5 @@
   - unless compact
     .pallet-progress-footer
       %span.pallet-progress-detail= detail
-      %span.pallet-progress-explanation= explanation
+      - if explain
+        %span.pallet-progress-explanation= explanation

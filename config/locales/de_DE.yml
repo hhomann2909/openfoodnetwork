@@ -4717,6 +4717,7 @@ de_DE:
       explanation: "Die Bestellungen dieses Bestellzyklus reisen gemeinsam auf einer Palette."
       explanation_with_minimum: "Die Bestellungen dieses Bestellzyklus reisen gemeinsam auf einer Palette. Sie wird geliefert, sobald sie zu %{minimum} gefüllt ist."
       bar_label: "Palette zu %{fill} gefüllt"
+      list_intro: "Jede Region schickt ihre eigene Palette. Sie wird geliefert, sobald sie ihre Markierung erreicht."
     price_breakdown:
       title: "Wohin geht dein Geld?"
       total: "Du zahlst"

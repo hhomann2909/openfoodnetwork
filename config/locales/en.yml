@@ -5302,6 +5302,7 @@ en:
       explanation: "Orders from this order cycle travel together on one pallet."
       explanation_with_minimum: "Orders from this order cycle travel together on one pallet. It is delivered once it is %{minimum} full."
       bar_label: "Pallet %{fill} full"
+      list_intro: "Each region sends its own pallet. It is delivered once it reaches its mark."
     price_breakdown:
       title: "Where your money goes"
       total: "You pay"

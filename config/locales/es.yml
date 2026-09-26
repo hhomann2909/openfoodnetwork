@@ -4911,6 +4911,7 @@ es:
       explanation: "Los pedidos de este ciclo viajan juntos en un palé."
       explanation_with_minimum: "Los pedidos de este ciclo viajan juntos en un palé. Sale en cuanto esté lleno al %{minimum}."
       bar_label: "Palé lleno al %{fill}"
+      list_intro: "Cada región envía su propio palé. Sale en cuanto alcanza su marca."
     price_breakdown:
       title: "¿A dónde va tu dinero?"
       total: "Pagas"

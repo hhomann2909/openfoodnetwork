@@ -4,8 +4,10 @@
 
   - if @pallets.any?
     .pallet-progress-list
+      - if @pallets.many?
+        %p.pallet-progress-list-intro= t("components.pallet_progress.list_intro")
       - @pallets.each do |pallet|
-        = render PalletProgressComponent.new(progress: pallet)
+        = render PalletProgressComponent.new(progress: pallet, explain: @pallets.one?)
 
   .products-container{ "data-product-grid-view-target": "products" }
     - @products.each do |product|
