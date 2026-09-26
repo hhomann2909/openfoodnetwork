@@ -15,6 +15,7 @@ as_ofn "cp deploy/staging/states_de.yml db/default/spree/states.yml"
 as_ofn "bin/rails db:create db:schema:load db:seed" || { as_ofn "git checkout -- db/default/spree/states.yml"; exit 1; }
 as_ofn "git checkout -- db/default/spree/states.yml"
 as_ofn "bin/rails runner deploy/staging/europe_zone.rb"
+as_ofn "bin/rails runner deploy/staging/content_config.rb"
 as_ofn "bin/rails runner deploy/staging/demo_data.rb"
 as_ofn "bin/rails runner deploy/staging/enhance_demo.rb"
 as_ofn "bin/rails runner deploy/staging/use_demo_photos.rb"

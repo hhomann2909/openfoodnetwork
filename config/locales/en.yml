@@ -2473,11 +2473,11 @@ en:
   menu_4_title: "Groups"
   menu_4_url: "/groups"
   menu_5_title: "About"
-  menu_5_url: "https://about.openfoodnetwork.org.au/"
+  menu_5_url: "/sell"
   menu_6_title: "Connect"
-  menu_6_url: "https://openfoodnetwork.org/au/connect/"
+  menu_6_url: "https://hof-homann.de/openfoodnetwork/ueber-uns"
   menu_7_title: "Learn"
-  menu_7_url: "https://openfoodnetwork.org/au/learn/"
+  menu_7_url: "https://guide.openfoodnetwork.org/"
 
   logo: "Logo (640x130)" #FIXME
   logo_mobile: "Mobile logo (75x26)" #FIXME
