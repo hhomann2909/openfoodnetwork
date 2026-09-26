@@ -2,8 +2,10 @@
   .loading{ style: "display: none;", "data-product-grid-view-target": "loading" }
     = render partial: "shop/products/product_spinner"
 
-  - if @pallet_progress
-    = render PalletProgressComponent.new(progress: @pallet_progress)
+  - if @pallets.any?
+    .pallet-progress-list
+      - @pallets.each do |pallet|
+        = render PalletProgressComponent.new(progress: pallet)
 
   .products-container{ "data-product-grid-view-target": "products" }
     - @products.each do |product|

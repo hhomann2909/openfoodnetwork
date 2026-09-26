@@ -20,6 +20,7 @@ Openfoodnetwork::Application.routes.draw do
       member do
         get :clone
         post :notify_producers
+        patch :update_pallets
       end
     end
 

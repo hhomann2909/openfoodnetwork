@@ -1800,6 +1800,13 @@ en:
         pallet_capacity_tip: Orders from far away producers travel together on one pallet. Enter how many kg fit on it to show customers how full it is. Leave at 0 to not track a pallet.
         pallet_minimum_fill: Minimum fill for delivery (%)
         pallet_minimum_fill_tip: How full the pallet must be for the delivery to go ahead. Customers see how much is still missing. Leave at 0 for no minimum.
+        pallets_title: Pallets per producer or region
+        pallets_intro: Give producers a pallet of their own by entering its capacity. Producers with the same pallet name share one pallet, for example all farms around Valencia. Leave capacities at 0 to use the order cycle's pallet above.
+        pallets_producer: Producer
+        pallets_name: Pallet name (region)
+        pallets_save: Save pallets
+      update_pallets:
+        success: Pallets saved.
       order_cycle_top_buttons:
         advanced_settings: "Advanced Settings"
       coordinator_fees:
@@ -5285,6 +5292,8 @@ en:
     pallet_progress:
       title: "Shared pallet"
       title_short: "Pallet"
+      title_named: "Shared pallet %{name}"
+      title_short_named: "Pallet %{name}"
       kg: "%{weight} kg"
       confirmed: "Delivery confirmed"
       to_confirm: "%{weight} more for delivery"

@@ -324,7 +324,8 @@ module Spree
       can [:admin, :update, :destroy], Schedule do |schedule|
         OpenFoodNetwork::Permissions.new(user).editable_schedules.include? schedule
       end
-      can [:bulk_update, :clone, :destroy, :notify_producers], OrderCycle do |order_cycle|
+      can [:bulk_update, :clone, :destroy, :notify_producers, :update_pallets],
+          OrderCycle do |order_cycle|
         user.enterprises.include? order_cycle.coordinator
       end
       can [:for_order_cycle], Enterprise

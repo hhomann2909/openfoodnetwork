@@ -4,6 +4,16 @@
 // Shared pallet of an order cycle (feature: pallet_progress). In the shop it sits above the
 // product grid in the shop's grey, with the bar in the brand colour; compact, it is a single
 // line at the foot of a home page product tile.
+.pallet-progress-list {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 12px;
+
+  .pallet-progress {
+    margin: 0;
+  }
+}
+
 .pallet-progress {
   margin: 12px 0 0;
   padding: 1rem 1.25rem;

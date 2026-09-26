@@ -132,6 +132,17 @@ module Admin
     end
 
     # Send notifications to all producers who are part of the order cycle
+    # Shared pallets per producer or region (feature: pallet_progress), set on the incoming
+    # exchanges of the order cycle.
+    def update_pallets
+      pallet_params.each do |exchange_id, attributes|
+        @order_cycle.exchanges.incoming.find(exchange_id).update!(attributes)
+      end
+
+      redirect_to main_app.edit_admin_order_cycle_path(@order_cycle),
+                  flash: { success: t('.success') }
+    end
+
     def notify_producers
       OrderCycleNotificationJob.perform_later params[:id].to_i
 
@@ -140,6 +151,16 @@ module Admin
     end
 
     protected
+
+    def pallet_params
+      params.fetch(:pallets, {}).permit!.to_h.transform_values do |attributes|
+        {
+          pallet_name: attributes["pallet_name"].to_s.strip.presence,
+          pallet_capacity: attributes["pallet_capacity"].to_d.clamp(0, 100_000),
+          pallet_minimum_fill: attributes["pallet_minimum_fill"].to_i.clamp(0, 100),
+        }
+      end
+    end
 
     def collection
       return Enterprise.where("1=0") unless json_request?

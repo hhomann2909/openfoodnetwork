@@ -48,7 +48,7 @@ class OriginMapService
   end
 
   def route(order_cycle, producer_id, shop_id)
-    progress = pallet_progress(order_cycle)
+    progress = pallets(order_cycle)&.for_producer(producer_id)
     {
       from: producer_id, to: shop_id, order_cycle: order_cycle.name,
       closes_at: order_cycle.orders_close_at.iso8601,
@@ -111,9 +111,10 @@ class OriginMapService
       transform_values { |pairs| pairs.map(&:last).uniq.sort.first(PRODUCTS_PER_PRODUCER) }
   end
 
-  def pallet_progress(order_cycle)
+  def pallets(order_cycle)
     return unless OpenFoodNetwork::FeatureToggle.enabled?(:pallet_progress, order_cycle.coordinator)
 
-    OrderCycles::PalletProgress.new(order_cycle)
+    @pallets ||= {}
+    @pallets[order_cycle.id] ||= OrderCycles::Pallets.new(order_cycle)
   end
 end

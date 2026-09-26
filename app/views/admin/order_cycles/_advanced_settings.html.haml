@@ -44,3 +44,33 @@
     .sixteen.columns.alpha.omega.text-center
       %input{ type: 'submit', value: t('.save_reload') }
       %a{ href: "#", "data-action": "click->toggle-control#toggleAdvancedSettings" }= t(:close)
+
+- if OpenFoodNetwork::FeatureToggle.enabled?(:pallet_progress, @order_cycle.coordinator)
+  - incoming = @order_cycle.exchanges.incoming.includes(:sender).order(:id)
+  - if incoming.any?
+    = form_tag main_app.update_pallets_admin_order_cycle_path(@order_cycle), method: :patch, id: "order_cycle_pallets" do
+      .row
+        .sixteen.columns.alpha.omega
+          %h4= t('.pallets_title')
+          %p= t('.pallets_intro')
+          %table
+            %thead
+              %tr
+                %th= t('.pallets_producer')
+                %th= t('.pallets_name')
+                %th= t('.pallet_capacity')
+                %th= t('.pallet_minimum_fill')
+            %tbody
+              - incoming.each do |exchange|
+                %tr
+                  %td= exchange.sender.name
+                  %td= text_field_tag "pallets[#{exchange.id}][pallet_name]", exchange.pallet_name,
+                    placeholder: exchange.sender.name, "aria-label": t('.pallets_name')
+                  %td= number_field_tag "pallets[#{exchange.id}][pallet_capacity]",
+                    exchange.pallet_capacity.to_d.to_s("F").delete_suffix(".0"), min: 0, step: 1,
+                    "aria-label": t('.pallet_capacity')
+                  %td= number_field_tag "pallets[#{exchange.id}][pallet_minimum_fill]",
+                    exchange.pallet_minimum_fill, min: 0, max: 100, step: 1,
+                    "aria-label": t('.pallet_minimum_fill')
+          .text-center
+            %input{ type: "submit", value: t('.pallets_save') }

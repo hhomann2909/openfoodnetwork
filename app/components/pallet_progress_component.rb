@@ -28,6 +28,13 @@ class PalletProgressComponent < ViewComponent::Base
     t("components.pallet_progress.kg", weight: helpers.number_with_delimiter(weight.round.to_i))
   end
 
+  def title
+    key = compact ? "title_short" : "title"
+    return t("components.pallet_progress.#{key}") unless progress.name
+
+    t("components.pallet_progress.#{key}_named", name: progress.name)
+  end
+
   def status
     if progress.confirmed?
       t("components.pallet_progress.confirmed")

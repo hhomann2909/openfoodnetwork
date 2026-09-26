@@ -68,6 +68,20 @@ RSpec.describe OrderCycles::PalletProgress do
     expect(progress.fill).to eq 1
   end
 
+  it "counts only its producers' products when it carries some of them" do
+    order(quantity: 2)
+    other = create(:supplier_enterprise)
+    mozzarella = create(:product, enterprise_id: other.id).variants.first
+    mozzarella.update_column(:weight, 1)
+    order(quantity: 3, variant: mozzarella)
+
+    pallet = described_class.new(order_cycle, capacity: 240, producer_ids: [other.id])
+    expect(pallet.ordered_weight).to eq 3
+    expect(pallet.capacity).to eq 240
+    expect(pallet).to be_carries(other.id)
+    expect(pallet).not_to be_carries(oranges.enterprise_id)
+  end
+
   it "isn't tracked without a capacity" do
     order_cycle.update!(preferred_pallet_capacity: 0)
 

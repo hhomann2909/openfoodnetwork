@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_08_31_000001) do
+ActiveRecord::Schema[7.2].define(version: 2026_09_26_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "plpgsql"
@@ -296,6 +296,9 @@ ActiveRecord::Schema[7.2].define(version: 2026_08_31_000001) do
     t.datetime "updated_at", precision: nil, null: false
     t.boolean "incoming", default: false, null: false
     t.text "receival_instructions"
+    t.string "pallet_name"
+    t.decimal "pallet_capacity", precision: 10, scale: 2, default: "0.0", null: false
+    t.integer "pallet_minimum_fill", default: 0, null: false
     t.index ["order_cycle_id"], name: "index_exchanges_on_order_cycle_id"
     t.index ["receiver_id"], name: "index_exchanges_on_receiver_id"
     t.index ["sender_id", "order_cycle_id", "receiver_id", "incoming"], name: "index_exchanges_on_sender_id", unique: true

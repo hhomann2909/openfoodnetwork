@@ -4,7 +4,7 @@ RSpec.describe PalletProgressComponent, type: :component do
   def progress(**overrides)
     instance_double(
       OrderCycles::PalletProgress,
-      tracked?: true, capacity: 800.to_d, ordered_weight: 576.to_d, fill: 0.72.to_d,
+      name: nil, tracked?: true, capacity: 800.to_d, ordered_weight: 576.to_d, fill: 0.72.to_d,
       minimum_fill: 0.8.to_d, minimum?: true, confirmed?: false, weight_to_confirm: 64.to_d,
       **overrides
     )
@@ -25,6 +25,12 @@ RSpec.describe PalletProgressComponent, type: :component do
     expect(page.find(".pallet-progress-bar-fill")[:style]).to eq "width: 72%"
     expect(page.find(".pallet-progress-minimum")[:style]).to eq "left: 80%"
     expect(page.find(".pallet-progress-bar")["aria-valuenow"]).to eq "72"
+  end
+
+  it "names a pallet of a producer or region" do
+    render_inline(described_class.new(progress: progress(name: "Valencia")))
+
+    expect(page).to have_selector ".pallet-progress-title", text: "Shared pallet Valencia"
   end
 
   it "says when the delivery is confirmed" do

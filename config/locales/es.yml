@@ -1618,6 +1618,13 @@ es:
         pallet_capacity_tip: Los pedidos de productores lejanos viajan juntos en un palé. Indica cuántos kg caben para mostrar a los clientes lo lleno que está. Deja 0 para no seguir un palé.
         pallet_minimum_fill: Llenado mínimo para el envío (%)
         pallet_minimum_fill_tip: Lo lleno que debe estar el palé para que salga el envío. Los clientes ven cuánto falta. Deja 0 para no fijar un mínimo.
+        pallets_title: Palés por productor o región
+        pallets_intro: Indica una capacidad para dar a un productor su propio palé. Los productores con el mismo nombre de palé comparten uno, por ejemplo todas las fincas de Valencia. Con capacidad 0 se usa el palé del ciclo de pedidos de arriba.
+        pallets_producer: Productor
+        pallets_name: Nombre del palé (región)
+        pallets_save: Guardar palés
+      update_pallets:
+        success: Palés guardados.
       order_cycle_top_buttons:
         advanced_settings: "Configuración Avanzada"
       coordinator_fees:
@@ -4894,6 +4901,8 @@ es:
     pallet_progress:
       title: "Palé compartido"
       title_short: "Palé"
+      title_named: "Palé compartido %{name}"
+      title_short_named: "Palé %{name}"
       kg: "%{weight} kg"
       confirmed: "Envío confirmado"
       to_confirm: "faltan %{weight} para el envío"

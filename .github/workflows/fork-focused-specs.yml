@@ -34,6 +34,8 @@ env:
     spec/models/order_cycle_spec.rb
     spec/services/origin_map_service_spec.rb
     spec/requests/map_spec.rb
+    spec/services/order_cycles/pallets_spec.rb
+    spec/requests/admin/order_cycle_pallets_spec.rb
 
 permissions:
   contents: read
@@ -106,7 +108,9 @@ jobs:
             spec/services/order_cycles/pallet_progress_spec.rb spec/components/pallet_progress_component_spec.rb \
             spec/requests/products_spec.rb \
             app/services/origin_map_service.rb app/controllers/map_controller.rb \
-            spec/services/origin_map_service_spec.rb spec/requests/map_spec.rb
+            spec/services/origin_map_service_spec.rb spec/requests/map_spec.rb \
+            app/services/order_cycles/pallets.rb app/controllers/admin/order_cycles_controller.rb \
+            spec/services/order_cycles/pallets_spec.rb spec/requests/admin/order_cycle_pallets_spec.rb
           bundle exec haml-lint \
             app/views/home/_products.html.haml app/views/home/index.html.haml \
             app/components/home_product_tile_component/home_product_tile_component.html.haml \

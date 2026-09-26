@@ -1470,6 +1470,13 @@ de_DE:
         pallet_capacity_tip: Bestellungen von weit entfernten Erzeugern reisen gemeinsam auf einer Palette. Trage ein, wie viele kg darauf passen, damit Kund*innen sehen, wie voll sie ist. 0 = keine Palette verfolgen.
         pallet_minimum_fill: Mindestfüllung für die Lieferung (%)
         pallet_minimum_fill_tip: Wie voll die Palette sein muss, damit die Lieferung stattfindet. Kund*innen sehen, wie viel noch fehlt. 0 = keine Mindestfüllung.
+        pallets_title: Paletten je Hof oder Region
+        pallets_intro: Trage eine Kapazität ein, um einem Hof eine eigene Palette zu geben. Höfe mit demselben Palettennamen teilen sich eine Palette, zum Beispiel alle Höfe um Valencia. Kapazität 0 = es gilt die Palette des Bestellzyklus oben.
+        pallets_producer: Hof
+        pallets_name: Palettenname (Region)
+        pallets_save: Paletten speichern
+      update_pallets:
+        success: Paletten gespeichert.
       order_cycle_top_buttons:
         advanced_settings: "Erweiterte Einstellungen"
       coordinator_fees:
@@ -4700,6 +4707,8 @@ de_DE:
     pallet_progress:
       title: "Gemeinsame Palette"
       title_short: "Palette"
+      title_named: "Gemeinsame Palette %{name}"
+      title_short_named: "Palette %{name}"
       kg: "%{weight} kg"
       confirmed: "Lieferung sicher"
       to_confirm: "noch %{weight} bis zur Lieferung"
