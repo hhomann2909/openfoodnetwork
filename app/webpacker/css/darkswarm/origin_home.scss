@@ -8,8 +8,9 @@ $warm: #fdf4ec;
   padding: 56px 0 48px;
   background: linear-gradient(180deg, #fff 0%, $warm 100%);
 
+  // On phones OFN's top bar can wrap to two lines (long shop names), so leave room for it.
   @include m.breakpoint(tablet) {
-    padding: 32px 0 24px;
+    padding: 56px 0 24px;
   }
 
   .row {
