@@ -133,7 +133,7 @@ RSpec.describe HomeProductsService do
       price = oranges.variants.first.price.to_d
       expect(stats.producer_count).to eq 1
       expect(stats.shop_count).to eq 1
-      expect(stats.closes_at).to eq order_cycle.orders_close_at
+      expect(stats.closes_at).to eq order_cycle.reload.orders_close_at
       expect(stats.item_cost_share).to be_within(0.001).of(price / (price + 10))
     end
 
