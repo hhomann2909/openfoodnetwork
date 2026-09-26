@@ -2,13 +2,16 @@
   .loading{ style: "display: none;", "data-product-grid-view-target": "loading" }
     = render partial: "shop/products/product_spinner"
 
-  - if @pallets.any?
-    .pallet-progress-list
-      - if @pallets.many?
-        %p.pallet-progress-list-intro= t("components.pallet_progress.list_intro")
-      - @pallets.each do |pallet|
-        = render PalletProgressComponent.new(progress: pallet, explain: @pallets.one?)
+  - if @pallets.one?
+    = render PalletProgressComponent.new(progress: @pallets.first)
+  - elsif @pallets.many?
+    -# Several pallets sit side by side, compact, so the products stay in view.
+    .pallet-progress-list.is-compact
+      %p.pallet-progress-list-intro= t("components.pallet_progress.list_intro")
+      .pallet-progress-grid
+        - @pallets.each do |pallet|
+          = render PalletProgressComponent.new(progress: pallet, compact: true)
 
-  .products-container{ "data-product-grid-view-target": "products" }
+  .products-container{ "data-product-grid-view-target": "products", "data-controller": "product-focus" }
     - @products.each do |product|
       = render ProductTileComponent.new(product:, variants_in_cart: @variants_in_cart, low_stock_display: @low_stock_display)

@@ -434,6 +434,32 @@ es:
       other:
         title: Otros fallos (%{count} pedidos)
         explainer: El procesamiento automático de estas órdenes falló por un motivo desconocido. Esto no debería ocurrir, contáctanos si estás viendo esto.
+  origin_hero:
+    kicker: "Directo de pequeñas fincas de %{countries}"
+    title: "Naranjas del árbol, mozzarella de la quesería. Recogida a la vuelta de la esquina."
+    lead: "Las fincas del sur te venden directamente. Tu pedido viaja junto a otros en un palé hasta una tienda de granja o una cooperativa cerca de ti, y así más parte del precio se queda con quien cultiva tu comida."
+    cta: "Ver productos"
+    map: "De dónde viene"
+    fact_share: "del precio va a las fincas"
+    fact_producers:
+      one: "finca familiar"
+      other: "fincas familiares"
+    fact_closes: "hasta el próximo cierre de pedidos"
+  origin_steps:
+    title: "Así llega tu comida"
+    intro: "Sin paquetes ni transporte aéreo: un palé por región, recogido cerca de ti."
+    order:
+      title: "Pide antes del cierre"
+      text: "Elige lo que te guste hasta que cierre el ciclo de pedidos. Aún no se ha cosechado nada."
+    pallet:
+      title: "El palé se llena"
+      text: "Los pedidos de tu región se suman. Cuando el palé está lo bastante lleno, el envío se confirma y la finca cosecha."
+    truck:
+      title: "En camión hacia el norte"
+      text: "El palé viaja en camión, los productos frescos entre 2 y 7 °C, en dos a cuatro días."
+    pickup:
+      title: "Recoge cerca de ti"
+      text: "Recoge tu pedido en la tienda de granja o cooperativa que elegiste, fresco y sin residuos de embalaje."
   origin_map:
     title: "De dónde viene tu comida"
     intro: "Los productores venden directamente. Sus pedidos viajan juntos a un punto de recogida cerca de ti."
@@ -458,6 +484,10 @@ es:
     confirmed: "envío confirmado"
     empty: "Todavía no hay productores ni puntos de recogida con ubicación."
   home_products:
+    pickup_at:
+      one: "Recogida en 1 tienda"
+      other: "Recogida en %{count} tiendas"
+    closes_in: "Pedidos hasta dentro de %{time}"
     title: "Disponible ahora"
     intro: "Pide directamente a los productores y recoge en una tienda cerca de ti."
     all_shops: "Ver todas las tiendas"
@@ -4891,6 +4921,7 @@ es:
       multiple_options: "varias opciones"
       from_price: "desde"
     home_product_tile:
+      order: "Pedir en %{shop}"
       multiple_producers: "Varios productores"
       from_price: "desde"
       sold_at: "en %{shop}"

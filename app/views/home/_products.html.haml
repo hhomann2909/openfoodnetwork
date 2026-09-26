@@ -7,6 +7,11 @@
         .small-12.columns.text-center
           %h2= t("home_products.title")
           %p.home-products-intro= t("home_products.intro")
+          - stats = home_product_stats
+          - if stats.closes_at
+            %p.home-products-meta
+              %span= t("home_products.pickup_at", count: stats.shop_count)
+              %span= t("home_products.closes_in", time: distance_of_time_in_words_to_now(stats.closes_at))
           - if home_product_origins.size > 1 || home_product_origin
             %nav.home-products-origins{ "aria-label": t("home_products.origin_filter") }
               = link_to t("home_products.all_origins"), main_app.root_path(anchor: "home-products"),

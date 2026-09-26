@@ -10,6 +10,9 @@
 # Offers can be narrowed to one country of origin, taken from the producer's address.
 class HomeProductsService
   Offer = Data.define(:product, :distributor, :order_cycle, :shop_count)
+  # Figures for the home page hero, from the same offers.
+  Stats = Data.define(:producer_count, :country_count, :shop_count, :item_cost_share,
+                      :closes_at)
 
   DEFAULT_LIMIT = 12
   # Each shop costs a few queries, so only the shops closing soonest are asked for products.
@@ -41,7 +44,29 @@ class HomeProductsService
       map(&:first)
   end
 
+  def stats
+    products = all_offers.map(&:product)
+    Stats.new(
+      producer_count: products.flat_map(&:producers).map(&:id).uniq.size,
+      country_count: origins.size,
+      shop_count: shops_with_order_cycle.size,
+      item_cost_share:,
+      closes_at: all_offers.map { |offer| offer.order_cycle.orders_close_at }.min
+    )
+  end
+
   private
+
+  # Average share of the price that is the item cost, what the producer asks for.
+  def item_cost_share
+    shares = all_offers.flat_map { |offer| offer.product.variants }.filter_map do |variant|
+      with_fees = variant.price_with_fees.to_d
+      variant.price.to_d / with_fees if with_fees.positive?
+    end
+    return if shares.empty?
+
+    shares.sum / shares.size
+  end
 
   def all_offers
     @all_offers ||= begin
@@ -65,7 +90,7 @@ class HomeProductsService
 
   # Pairs each open shop with its order cycle closing soonest, most urgent shops first.
   def shops_with_order_cycle
-    Exchange.outgoing.
+    @shops_with_order_cycle ||= Exchange.outgoing.
       joins(:order_cycle).merge(OrderCycle.active).
       where(receiver_id: open_shop_ids).
       includes(:order_cycle, :receiver).

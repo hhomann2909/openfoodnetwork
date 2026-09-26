@@ -123,6 +123,29 @@ RSpec.describe HomeProductsService do
     end
   end
 
+  describe "#stats" do
+    it "sums up what is on sale for the home page hero" do
+      order_cycle = open_order_cycle(distributors: [shop],
+                                     variants: [oranges.variants.first, lemons.variants.first])
+      order_cycle.coordinator_fees << create(:enterprise_fee, amount: 10)
+
+      stats = described_class.new.stats
+      price = oranges.variants.first.price.to_d
+      expect(stats.producer_count).to eq 1
+      expect(stats.shop_count).to eq 1
+      expect(stats.closes_at).to eq order_cycle.orders_close_at
+      expect(stats.item_cost_share).to be_within(0.001).of(price / (price + 10))
+    end
+
+    it "has no figures when nothing is on sale" do
+      stats = described_class.new.stats
+
+      expect(stats.producer_count).to eq 0
+      expect(stats.item_cost_share).to be_nil
+      expect(stats.closes_at).to be_nil
+    end
+  end
+
   it "stops at the limit" do
     open_order_cycle(distributors: [shop],
                      variants: [oranges.variants.first, lemons.variants.first])

@@ -21,10 +21,11 @@ class HomeProductTileComponent < ViewComponent::Base
 
   attr_reader :offer
 
-  delegate :product, :distributor, :order_cycle, :shop_count, to: :offer
+  delegate :product, :distributor, :order_cycle, to: :offer
 
+  # Straight to the product in the shop, where ProductFocus scrolls to it.
   def shop_path
-    helpers.main_app.enterprise_shop_path(distributor)
+    helpers.main_app.enterprise_shop_path(distributor, product: product.id)
   end
 
   def producer_name
@@ -55,27 +56,5 @@ class HomeProductTileComponent < ViewComponent::Base
     return unless product.single_variant?
 
     helpers.unit_price_with_unit(product.variant)
-  end
-
-  def sold_at
-    if shop_count > 1
-      t("components.home_product_tile.sold_at_and_more", shop: distributor.name,
-                                                         count: shop_count - 1)
-    else
-      t("components.home_product_tile.sold_at", shop: distributor.name)
-    end
-  end
-
-  # The pallet this product travels on, when its order cycle tracks pallets.
-  def pallet_progress
-    return unless product.single_producer?
-    return unless OpenFoodNetwork::FeatureToggle.enabled?(:pallet_progress, order_cycle.coordinator)
-
-    OrderCycles::Pallets.new(order_cycle).for_producer(product.producers.first.id)
-  end
-
-  def closes_in
-    t("components.home_product_tile.closes_in",
-      time: helpers.distance_of_time_in_words_to_now(order_cycle.orders_close_at))
   end
 end

@@ -99,3 +99,10 @@
     }
   }
 }
+
+// A product reached from a home page tile (see product_focus_controller.js).
+.product-item.is-focused .product-content {
+  border-radius: $radius-image;
+  box-shadow: 0 0 0 3px b.$orange-500;
+  transition: box-shadow 0.4s;
+}

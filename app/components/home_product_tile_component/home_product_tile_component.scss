@@ -204,12 +204,14 @@
     @include m.line-clamp(2);
   }
 
+  // Push pallet and call to action to the bottom so they line up across a row of tiles.
   .prices {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
     gap: 0 0.75rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: auto;
+    padding-bottom: 0.5rem;
 
     .price {
       font-weight: $product-grid-price-font-weight;
@@ -223,18 +225,41 @@
     }
   }
 
-  .shop,
-  .closes-in {
-    color: b.$grey-650;
-    font-size: 0.8125rem;
+  .home-product-cta {
+    display: block;
+    margin-top: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    overflow: hidden;
+    border: 1px solid b.$orange-500;
+    border-radius: 0.5em;
+    color: b.$orange-600;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: background-color 0.15s, color 0.15s;
   }
 
-  .shop {
-    @include m.line-clamp(2);
+  &:hover .home-product-cta,
+  &:focus .home-product-cta {
+    background: b.$orange-500;
+    color: b.$white;
   }
+}
 
-  // Push the order details to the bottom so they line up across a row of tiles.
-  .shop {
-    margin-top: auto;
+.home-products-meta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 1.25rem;
+  margin: 0.75rem 0 0;
+  color: b.$grey-700;
+  font-size: 0.9375rem;
+
+  span + span:before {
+    content: "·";
+    margin-right: 1.25rem;
+    color: b.$grey-400;
   }
 }

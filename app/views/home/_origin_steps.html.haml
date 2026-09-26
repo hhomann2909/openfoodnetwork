@@ -1,0 +1,19 @@
+-# How an order travels from the farm to the pick-up point (feature: home_products).
+#origin-steps.pane
+  .row.header
+    .small-12.columns.text-center
+      %h2= t("origin_steps.title")
+      %p.origin-steps-intro= t("origin_steps.intro")
+  .row.content
+    .small-12.columns
+      %ol.origin-steps-list
+        - [["order", "M6 7h13l-1.5 9h-10z M6 7 5 3H2 M9 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2 M17 20a1 1 0 1 0 0-2 1 1 0 0 0 0 2"],
+           ["pallet", "M3 17h18 M5 17v3 M12 17v3 M19 17v3 M5 13h6v4H5z M13 13h6v4h-6z M9 9h6v4H9z"],
+           ["truck", "M2 7h11v9H2z M13 10h4l3 3v3h-7z M6 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4 M17 19a2 2 0 1 0 0-4 2 2 0 0 0 0 4"],
+           ["pickup", "M3 10 12 4l9 6 M5 9v11h14V9 M10 20v-6h4v6"]].each do |step, path|
+          %li
+            %span.origin-steps-icon
+              %svg{ viewBox: "0 0 24 24", "aria-hidden": "true" }
+                %path{ d: path }
+            %h3= t("origin_steps.#{step}.title")
+            %p= t("origin_steps.#{step}.text")

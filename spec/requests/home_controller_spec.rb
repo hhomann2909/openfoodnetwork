@@ -23,7 +23,16 @@ RSpec.describe HomeController do
 
         expect(response.body).to include "Available now"
         expect(response.body).to include "Navel Oranges"
-        expect(response.body).to include enterprise_shop_path(shop)
+        expect(response.body).to include enterprise_shop_path(shop, product: product.id)
+      end
+
+      it "opens with the marketplace hero and how it works", feature: :home_products do
+        get root_path
+
+        expect(response.body).to include 'id="origin-hero"'
+        expect(response.body).to include "Oranges from the tree"
+        expect(response.body).to include 'id="origin-steps"'
+        expect(response.body).not_to include 'id="tagline"'
       end
 
       it "offers a filter by country of origin", feature: :home_products do

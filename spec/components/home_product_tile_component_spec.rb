@@ -28,10 +28,11 @@ RSpec.describe HomeProductTileComponent, type: :component do
     HomeProductsService::Offer.new(product:, distributor: shop, order_cycle:, shop_count:)
   end
 
-  it "links to the shop that sells the product" do
+  it "links straight to the product in the shop that sells it" do
     render_tile
 
-    expect(page).to have_link href: "/hof-homann/shop"
+    expect(page).to have_link href: "/hof-homann/shop?product=1"
+    expect(page).to have_selector ".home-product-cta", text: "Order at Hof Homann"
   end
 
   it "names the producer and the country the product comes from" do
@@ -60,20 +61,6 @@ RSpec.describe HomeProductTileComponent, type: :component do
     expect(page).to have_selector ".prices", text: "from"
     expect(page).to have_selector ".price", text: "$18.00"
     expect(page).to have_selector ".product-name", text: "Oranges"
-  end
-
-  it "names the shop and when ordering closes" do
-    render_tile
-
-    expect(page).to have_selector ".shop", text: "at Hof Homann"
-    expect(page).to have_selector ".closes-in", text: "Orders close in 3 days"
-  end
-
-  it "counts the other shops selling the product" do
-    render_inline(described_class.new(offer: build_offer(build_product([build_variant]),
-                                                         shop_count: 3)))
-
-    expect(page).to have_selector ".shop", text: "at Hof Homann and 2 more shops"
   end
 
   it "renders nothing without variants" do

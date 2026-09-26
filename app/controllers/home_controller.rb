@@ -5,7 +5,8 @@ class HomeController < BaseController
 
   helper CountryNameHelper
 
-  helper_method :home_product_offers, :home_product_origins, :home_product_origin
+  helper_method :home_product_offers, :home_product_origins, :home_product_origin,
+                :home_product_stats
 
   def index
     @external_page = CachedExternalPage.fetch(ContentConfig.home_page_url)
@@ -36,6 +37,10 @@ class HomeController < BaseController
 
   def home_product_origins
     home_products.origins
+  end
+
+  def home_product_stats
+    home_products.stats
   end
 
   # ISO code of the country chosen in the origin filter, if any.

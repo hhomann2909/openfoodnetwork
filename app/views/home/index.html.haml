@@ -10,11 +10,15 @@
   - if @external_page
     = render "home/external_page", page: @external_page
   - else
-    = render "home/tagline"
+    - if feature?(:home_products, spree_current_user)
+      = render "home/origin_hero"
+    - else
+      = render "home/tagline"
 
     #panes
       - if feature?(:home_products, spree_current_user)
         = render "home/products"
+        = render "home/origin_steps"
       = render "home/brandstory"
       = render "home/system"
       = render "home/cta"

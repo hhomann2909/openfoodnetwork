@@ -2,7 +2,7 @@
   %a.home-product-link{ href: shop_path }
     .home-product-image
       - if product.image
-        = image_tag(product.image.url(:small), alt: product.image.alt, loading: "lazy")
+        = image_tag(product.image.url(:large), alt: product.image.alt, loading: "lazy")
       - else
         = image_tag(Spree::Image.default_image_url(:small), class: "placeholder", alt: "")
       - if origin
@@ -15,7 +15,6 @@
       %span.price= price
       - if unit_price
         %span.unit-price= unit_price
-    %p.shop= sold_at
-    %p.closes-in= closes_in
     - if (progress = pallet_progress)
       = render PalletProgressComponent.new(progress:, compact: true)
+    %span.home-product-cta= t("components.home_product_tile.order", shop: distributor.name)

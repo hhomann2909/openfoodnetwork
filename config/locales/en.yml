@@ -535,6 +535,32 @@ en:
         title: Other Failure (%{count} orders)
         explainer: Automatic processing of these orders failed for an unknown reason. This should not occur, please contact us if you are seeing this.
 
+  origin_hero:
+    kicker: "Straight from small farms in %{countries}"
+    title: "Oranges from the tree, mozzarella from the dairy. Picked up around the corner."
+    lead: "Farmers in the south sell to you directly. Your orders travel together on a pallet to a farm shop or food co-op near you, so more of the price stays with the people who grow your food."
+    cta: "See what is on sale"
+    map: "Where it comes from"
+    fact_share: "of the price goes to the producers"
+    fact_producers:
+      one: "producer, family run"
+      other: "producers, family run"
+    fact_closes: "until the next order deadline"
+  origin_steps:
+    title: "How your food gets to you"
+    intro: "No parcels, no air freight: one pallet per region, picked up near you."
+    order:
+      title: "Order before the deadline"
+      text: "Pick what you like until the order cycle closes. Nothing is harvested in advance."
+    pallet:
+      title: "The pallet fills up"
+      text: "Orders from your region add up. Once the pallet is full enough, the delivery is confirmed and the farm harvests."
+    truck:
+      title: "By truck to the north"
+      text: "The pallet travels by truck, chilled goods at 2 to 7 °C, in two to four days."
+    pickup:
+      title: "Pick up near you"
+      text: "Collect your order at the farm shop or food co-op you chose, fresh and without packaging waste."
   origin_map:
     title: "Where your food comes from"
     intro: "Producers sell directly. Their orders travel together to a pick-up point near you."
@@ -559,6 +585,10 @@ en:
     confirmed: "delivery confirmed"
     empty: "No producers or pick-up points with a location yet."
   home_products:
+    pickup_at:
+      one: "Pick up at 1 shop"
+      other: "Pick up at %{count} shops"
+    closes_in: "Orders close in %{time}"
     title: "Available now"
     intro: "Order directly from producers and pick up at a shop near you."
     all_shops: "See all shops"
@@ -5282,6 +5312,7 @@ en:
       multiple_options: "multiple options"
       from_price: "from"
     home_product_tile:
+      order: "Order at %{shop}"
       multiple_producers: "Multiple producers"
       from_price: "from"
       sold_at: "at %{shop}"

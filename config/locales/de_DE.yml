@@ -362,6 +362,32 @@ de_DE:
       other:
         title: Andere Fehler (%{count} Bestellungen)
         explainer: Die automatische Verarbeitung dieser Bestellungen ist aus einem unbekannten Grund gescheitert. Dies sollte nicht geschehen, Bitte kontaktieren Sie uns, wenn Sie dies sehen.
+  origin_hero:
+    kicker: "Direkt von kleinen Höfen aus %{countries}"
+    title: "Orangen vom Baum, Mozzarella von der Käserei. Abholen um die Ecke."
+    lead: "Höfe im Süden verkaufen direkt an dich. Deine Bestellung reist gemeinsam mit anderen auf einer Palette zu einem Hofladen oder einer Food-Coop in deiner Nähe. So bleibt mehr vom Preis bei denen, die dein Essen anbauen."
+    cta: "Jetzt Produkte ansehen"
+    map: "Woher es kommt"
+    fact_share: "des Preises gehen an die Höfe"
+    fact_producers:
+      one: "Hof, familiengeführt"
+      other: "Höfe, familiengeführt"
+    fact_closes: "bis zum nächsten Bestellschluss"
+  origin_steps:
+    title: "So kommt dein Essen zu dir"
+    intro: "Kein Paket, keine Luftfracht: eine Palette pro Region, abgeholt in deiner Nähe."
+    order:
+      title: "Bis zum Bestellschluss bestellen"
+      text: "Wähle aus, was dir schmeckt, bis der Bestellzyklus schließt. Geerntet wird noch nichts."
+    pallet:
+      title: "Die Palette füllt sich"
+      text: "Die Bestellungen aus deiner Region summieren sich. Ist die Palette voll genug, ist die Lieferung sicher und der Hof erntet."
+    truck:
+      title: "Per LKW in den Norden"
+      text: "Die Palette reist per LKW, Kühlware bei 2 bis 7 °C, in zwei bis vier Tagen."
+    pickup:
+      title: "Abholen in deiner Nähe"
+      text: "Hol deine Bestellung im gewählten Hofladen oder in der Food-Coop ab, frisch und ohne Verpackungsmüll."
   origin_map:
     title: "Woher dein Essen kommt"
     intro: "Erzeuger verkaufen direkt. Ihre Bestellungen reisen gemeinsam zu einem Abholpunkt in deiner Nähe."
@@ -386,6 +412,10 @@ de_DE:
     confirmed: "Lieferung sicher"
     empty: "Noch keine Erzeuger oder Abholpunkte mit Standort."
   home_products:
+    pickup_at:
+      one: "Abholung in 1 Laden"
+      other: "Abholung in %{count} Läden"
+    closes_in: "Bestellschluss in %{time}"
     title: "Jetzt bestellbar"
     intro: "Direkt bei den Erzeugern bestellen und im Laden in deiner Nähe abholen."
     all_shops: "Alle Läden ansehen"
@@ -4697,6 +4727,7 @@ de_DE:
     product_tile:
       from_price: "von"
     home_product_tile:
+      order: "Bei %{shop} bestellen"
       multiple_producers: "Mehrere Erzeuger"
       from_price: "ab"
       sold_at: "bei %{shop}"
