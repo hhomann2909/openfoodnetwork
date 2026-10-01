@@ -53,7 +53,9 @@ RSpec.describe HomeController do
         get root_path
 
         expect(response.body).to include "All countries"
-        expect(response.body).to include root_path(origin: "IT", anchor: "home-products")
+        expect(response.body).to include CGI.escapeHTML(
+          root_path(hub: shop.permalink, origin: "IT", anchor: "home-products")
+        )
 
         get root_path(origin: "it")
 
