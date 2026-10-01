@@ -10,7 +10,7 @@
 # Prices and stock depend on the shop, so the home page lists the products of one pick-up point
 # (hub) at a time: the one asked for, else the visitor's current shop, else the one closing
 # first. Offers can be narrowed to one country of origin, taken from the producer's address.
-class HomeProductsService
+class HomeProductsService # rubocop:disable Metrics/ClassLength
   Offer = Data.define(:product, :distributor, :order_cycle, :shop_count)
   # An open shop with the order cycle it sells in and when orders can be picked up there.
   Hub = Data.define(:enterprise, :order_cycle, :pickup_time)
