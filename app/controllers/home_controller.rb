@@ -6,7 +6,7 @@ class HomeController < BaseController
   helper CountryNameHelper
 
   helper_method :home_product_offers, :home_product_origins, :home_product_origin,
-                :home_product_stats
+                :home_product_stats, :home_product_hubs, :home_product_hub
 
   def index
     @external_page = CachedExternalPage.fetch(ContentConfig.home_page_url)
@@ -43,6 +43,20 @@ class HomeController < BaseController
     home_products.stats
   end
 
+  def home_product_hubs
+    home_products.hubs
+  end
+
+  def home_product_hub
+    home_products.hub
+  end
+
+  # Permalink of the pick-up point chosen on the home page, if any.
+  def home_product_hub_param
+    hub = params[:hub].to_s
+    hub if hub.match?(/\A[a-z0-9_-]{1,100}\z/)
+  end
+
   # ISO code of the country chosen in the origin filter, if any.
   def home_product_origin
     origin = params[:origin].to_s.upcase
@@ -50,7 +64,10 @@ class HomeController < BaseController
   end
 
   def home_products
-    @home_products ||= HomeProductsService.new(origin: home_product_origin)
+    @home_products ||= HomeProductsService.new(
+      origin: home_product_origin, hub: home_product_hub_param,
+      preferred_hub_id: current_distributor&.id
+    )
   end
 
   # Cache the value of the query count

@@ -26,6 +26,14 @@ RSpec.describe HomeController do
         expect(response.body).to include enterprise_shop_path(shop, product: product.id)
       end
 
+      it "says which pick-up point the products are for", feature: :home_products do
+        get root_path
+
+        expect(response.body).to include "Your pick-up point"
+        expect(response.body).to include shop.name
+        expect(response.body).to include "Products, prices and pick-up times on this page"
+      end
+
       it "opens with the marketplace hero and how it works", feature: :home_products do
         get root_path
 

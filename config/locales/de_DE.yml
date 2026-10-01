@@ -413,6 +413,10 @@ de_DE:
     confirmed: "Lieferung sicher"
     empty: "Noch keine Erzeuger oder Abholpunkte mit Standort."
   home_products:
+    hub_label: "Dein Abholpunkt"
+    hub_shop: "Zum Laden"
+    hub_switch: "Abholpunkt wechseln"
+    hub_note: "Produkte, Preise und Abholzeiten auf dieser Seite gelten für diesen Abholpunkt."
     pickup_at:
       one: "Abholung in 1 Laden"
       other: "Abholung in %{count} Läden"

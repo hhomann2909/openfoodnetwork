@@ -78,14 +78,47 @@ RSpec.describe HomeProductsService do
     end
   end
 
-  it "lists offers from the soonest closing order cycle first" do
-    other_shop = create(:distributor_enterprise, with_payment_and_shipping: true)
-    open_order_cycle(distributors: [shop], variants: [oranges.variants.first],
-                     closes_in: 2.weeks)
-    open_order_cycle(distributors: [other_shop], variants: [lemons.variants.first],
-                     closes_in: 2.days)
+  describe "pick-up point" do
+    let(:other_shop) { create(:distributor_enterprise, with_payment_and_shipping: true) }
 
-    expect(offers.map { |offer| offer.product.name }).to eq ["Lemons", "Oranges"]
+    before do
+      open_order_cycle(distributors: [shop], variants: [oranges.variants.first],
+                       closes_in: 2.weeks)
+      open_order_cycle(distributors: [other_shop], variants: [lemons.variants.first],
+                       closes_in: 2.days)
+    end
+
+    it "lists the open pick-up points, closing soonest first" do
+      expect(described_class.new.hubs.map(&:enterprise)).to eq [other_shop, shop]
+    end
+
+    it "shows the products of the pick-up point closing first" do
+      service = described_class.new
+
+      expect(service.hub.enterprise).to eq other_shop
+      expect(service.offers.map { |offer| offer.product.name }).to eq ["Lemons"]
+    end
+
+    it "shows the products of the pick-up point asked for" do
+      service = described_class.new(hub: shop.permalink)
+
+      expect(service.hub.enterprise).to eq shop
+      expect(service.offers.map { |offer| offer.product.name }).to eq ["Oranges"]
+    end
+
+    it "prefers the visitor's current shop" do
+      service = described_class.new(preferred_hub_id: shop.id)
+
+      expect(service.hub.enterprise).to eq shop
+    end
+
+    it "falls back when the pick-up point asked for isn't open" do
+      expect(described_class.new(hub: "nowhere").hub.enterprise).to eq other_shop
+    end
+
+    it "knows when orders can be picked up" do
+      expect(described_class.new(hub: shop.permalink).hub.pickup_time).to eq "time 0"
+    end
   end
 
   describe "country of origin" do

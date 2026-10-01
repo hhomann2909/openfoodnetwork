@@ -7,9 +7,13 @@
 # order cycle it can be bought from. A product sold by several shops is listed once, from the shop
 # whose order cycle closes first, and knows how many shops sell it.
 #
-# Offers can be narrowed to one country of origin, taken from the producer's address.
+# Prices and stock depend on the shop, so the home page lists the products of one pick-up point
+# (hub) at a time: the one asked for, else the visitor's current shop, else the one closing
+# first. Offers can be narrowed to one country of origin, taken from the producer's address.
 class HomeProductsService
   Offer = Data.define(:product, :distributor, :order_cycle, :shop_count)
+  # An open shop with the order cycle it sells in and when orders can be picked up there.
+  Hub = Data.define(:enterprise, :order_cycle, :pickup_time)
   # Figures for the home page hero, from the same offers.
   Stats = Data.define(:producer_count, :country_count, :shop_count, :item_cost_share,
                       :closes_at)
@@ -27,18 +31,36 @@ class HomeProductsService
   end
 
   # origin: ISO code of a country, e.g. "ES", to list only products from there.
-  def initialize(limit: DEFAULT_LIMIT, origin: nil)
+  # hub: permalink of the pick-up point asked for; preferred_hub_id: the visitor's current shop.
+  def initialize(limit: DEFAULT_LIMIT, origin: nil, hub: nil, preferred_hub_id: nil)
     @limit = limit
     @origin = origin
+    @hub_permalink = hub
+    @preferred_hub_id = preferred_hub_id
+  end
+
+  # Open pick-up points, closing soonest first.
+  def hubs
+    @hubs ||= shop_exchanges.map do |exchange|
+      Hub.new(enterprise: exchange.receiver, order_cycle: exchange.order_cycle,
+              pickup_time: exchange.pickup_time.presence)
+    end
+  end
+
+  # The pick-up point the products are shown for.
+  def hub
+    @hub ||= hubs.find { |candidate| candidate.enterprise.permalink == @hub_permalink } ||
+             hubs.find { |candidate| candidate.enterprise.id == @preferred_hub_id } ||
+             hubs.first
   end
 
   def offers
-    all_offers.select { |offer| from_origin?(offer) }.first(@limit)
+    hub_offers.select { |offer| from_origin?(offer) }.first(@limit)
   end
 
-  # Countries the products on sale come from, those with the most products first.
+  # Countries the hub's products come from, those with the most products first.
   def origins
-    all_offers.filter_map { |offer| self.class.origin_of(offer.product) }.
+    hub_offers.filter_map { |offer| self.class.origin_of(offer.product) }.
       tally.
       sort_by { |country, count| [-count, country.name] }.
       map(&:first)
@@ -68,6 +90,23 @@ class HomeProductsService
     shares.sum / shares.size
   end
 
+  # Everything the chosen hub sells, each product knowing in how many open shops it is sold.
+  def hub_offers
+    @hub_offers ||= if hub
+                      products_for(hub.enterprise, hub.order_cycle).map do |product|
+                        Offer.new(product:, distributor: hub.enterprise,
+                                  order_cycle: hub.order_cycle,
+                                  shop_count: shop_counts.fetch(product.id, 1))
+                      end
+                    else
+                      []
+                    end
+  end
+
+  def shop_counts
+    @shop_counts ||= all_offers.to_h { |offer| [offer.product.id, offer.shop_count] }
+  end
+
   def all_offers
     @all_offers ||= begin
       candidates = shops_with_order_cycle.flat_map do |shop, order_cycle|
@@ -90,15 +129,21 @@ class HomeProductsService
 
   # Pairs each open shop with its order cycle closing soonest, most urgent shops first.
   def shops_with_order_cycle
-    @shops_with_order_cycle ||= Exchange.outgoing.
+    @shops_with_order_cycle ||= shop_exchanges.map do |exchange|
+      [exchange.receiver, exchange.order_cycle]
+    end
+  end
+
+  # The outgoing exchange of each open shop's order cycle closing soonest.
+  def shop_exchanges
+    @shop_exchanges ||= Exchange.outgoing.
       joins(:order_cycle).merge(OrderCycle.active).
       where(receiver_id: open_shop_ids).
-      includes(:order_cycle, :receiver).
+      includes(:order_cycle, receiver: [:address, :logo_attachment]).
       order("order_cycles.orders_close_at ASC, exchanges.id ASC").
       to_a.
       uniq(&:receiver_id).
-      first(MAX_SHOPS).
-      map { |exchange| [exchange.receiver, exchange.order_cycle] }
+      first(MAX_SHOPS)
   end
 
   # Shops anyone can buy from: listed publicly, ready for checkout and not behind a login.

@@ -1,24 +1,52 @@
--# Products from all open shops (feature: home_products). Cached briefly: the list spans every
--# open shop, and each tile links to its shop, which always shows current stock and prices.
-= cache_with_locale ["home-products", home_product_origin], expires_in: 5.minutes do
-  - if home_product_offers.any? || home_product_origin
+-# Products of one pick-up point (feature: home_products): prices, stock and pick-up depend on
+-# the shop, so the visitor sees which shop they are buying from before any product. Cached
+-# briefly per hub and origin; each tile links to the shop, which shows current stock and prices.
+- hub = home_product_hub
+= cache_with_locale ["home-products", hub&.enterprise&.permalink, home_product_origin], expires_in: 5.minutes do
+  - if hub
     #home-products.pane
       .row.header
         .small-12.columns.text-center
           %h2= t("home_products.title")
           %p.home-products-intro= t("home_products.intro")
-          - stats = home_product_stats
-          - if stats.closes_at
-            %p.home-products-meta
-              %span= t("home_products.pickup_at", count: stats.shop_count)
-              %span= t("home_products.closes_in", time: distance_of_time_in_words_to_now(stats.closes_at))
+
+      .row.hub-row
+        .small-12.columns
+          %section.home-hub{ "aria-labelledby": "home-hub-name" }
+            .home-hub-card
+              - if hub.enterprise.logo.attached?
+                = image_tag hub.enterprise.logo_url(:thumb), alt: "", class: "home-hub-logo"
+              .home-hub-text
+                %p.home-hub-label= t("home_products.hub_label")
+                %h3#home-hub-name= hub.enterprise.name
+                %ul.home-hub-facts
+                  - if hub.enterprise.address&.city.present?
+                    %li= hub.enterprise.address.city
+                  - if hub.pickup_time
+                    %li= hub.pickup_time
+                  %li= t("home_products.closes_in", time: distance_of_time_in_words_to_now(hub.order_cycle.orders_close_at))
+              = link_to t("home_products.hub_shop"), main_app.enterprise_shop_path(hub.enterprise), class: "home-hub-shop"
+            - if home_product_hubs.many?
+              %nav.home-hub-switch{ "aria-label": t("home_products.hub_switch") }
+                %span= t("home_products.hub_switch")
+                - home_product_hubs.each do |other|
+                  = link_to main_app.root_path(hub: other.enterprise.permalink, origin: home_product_origin, anchor: "home-products"),
+                    class: "home-hub-option", "aria-current": other == hub ? "true" : nil do
+                    %strong= other.enterprise.name
+                    - if other.enterprise.address&.city.present?
+                      %small= other.enterprise.address.city
+            %p.home-hub-note= t("home_products.hub_note")
+
+      .row.filters-row
+        .small-12.columns.text-center
           - if home_product_origins.size > 1 || home_product_origin
             %nav.home-products-origins{ "aria-label": t("home_products.origin_filter") }
-              = link_to t("home_products.all_origins"), main_app.root_path(anchor: "home-products"),
+              = link_to t("home_products.all_origins"),
+                main_app.root_path(hub: hub.enterprise.permalink, anchor: "home-products"),
                 class: "origin-chip", "aria-current": home_product_origin ? nil : "true"
               - home_product_origins.each do |country|
                 = link_to country_display_name(country),
-                  main_app.root_path(origin: country.iso, anchor: "home-products"),
+                  main_app.root_path(hub: hub.enterprise.permalink, origin: country.iso, anchor: "home-products"),
                   class: "origin-chip", "aria-current": country.iso == home_product_origin ? "true" : nil
       .row.content
         .small-12.columns

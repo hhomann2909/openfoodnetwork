@@ -586,6 +586,10 @@ en:
     confirmed: "delivery confirmed"
     empty: "No producers or pick-up points with a location yet."
   home_products:
+    hub_label: "Your pick-up point"
+    hub_shop: "Go to shop"
+    hub_switch: "Change pick-up point"
+    hub_note: "Products, prices and pick-up times on this page are for this pick-up point."
     pickup_at:
       one: "Pick up at 1 shop"
       other: "Pick up at %{count} shops"

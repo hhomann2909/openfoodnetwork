@@ -485,6 +485,10 @@ es:
     confirmed: "envío confirmado"
     empty: "Todavía no hay productores ni puntos de recogida con ubicación."
   home_products:
+    hub_label: "Tu punto de recogida"
+    hub_shop: "Ir a la tienda"
+    hub_switch: "Cambiar punto de recogida"
+    hub_note: "Los productos, precios y horarios de esta página son de este punto de recogida."
     pickup_at:
       one: "Recogida en 1 tienda"
       other: "Recogida en %{count} tiendas"
