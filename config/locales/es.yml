@@ -485,6 +485,8 @@ es:
     confirmed: "envío confirmado"
     empty: "Todavía no hay productores ni puntos de recogida con ubicación."
   home_products:
+    none_open: "Ahora mismo no hay pedidos abiertos. El próximo ciclo llega pronto."
+    next_opening: "El próximo ciclo de pedidos abre el %{date}"
     hub_label: "Tu punto de recogida"
     hub_shop: "Ir a la tienda"
     hub_switch: "Cambiar punto de recogida"

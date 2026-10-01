@@ -78,11 +78,20 @@ RSpec.describe HomeController do
     end
 
     context "with the home products feature on but nothing on sale", feature: :home_products do
-      it "leaves out the products section" do
+      it "says that nothing is open for orders" do
         get root_path
 
-        expect(response.body).to include "tagline"
-        expect(response.body).not_to include "Available now"
+        expect(response.body).to include "Nothing is open for orders right now"
+        expect(response.body).not_to include "home-hub"
+      end
+
+      it "says when the next order cycle opens" do
+        shop = create(:distributor_enterprise, with_payment_and_shipping: true)
+        create(:upcoming_order_cycle, distributors: [shop])
+
+        get root_path
+
+        expect(response.body).to include "Next order cycle opens on"
       end
     end
 

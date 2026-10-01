@@ -58,3 +58,17 @@
             %p.home-products-empty= t("home_products.none_from_origin")
           .home-products-more
             = link_to t("home_products.all_shops"), main_app.shops_path, class: "home-products-cta"
+  - else
+    -# Between order cycles: say so, rather than leaving the products out without a word.
+    #home-products.pane
+      .row.header
+        .small-12.columns.text-center
+          %h2= t("home_products.title")
+          %p.home-products-intro= t("home_products.none_open")
+          - if (opens_at = home_products_next_opening)
+            %p.home-products-meta
+              %span= t("home_products.next_opening", date: l(opens_at.to_date, format: :long))
+      .row.content
+        .small-12.columns
+          .home-products-more
+            = link_to t("origin_hero.map"), main_app.map_path, class: "home-products-cta"

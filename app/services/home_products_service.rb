@@ -54,6 +54,13 @@ class HomeProductsService # rubocop:disable Metrics/ClassLength
              hubs.first
   end
 
+  # When nothing is open: when the next order cycle of a public shop opens, if one is planned.
+  def next_opens_at
+    OrderCycle.upcoming.joins(:exchanges).merge(Exchange.outgoing).
+      where(exchanges: { receiver_id: open_shop_ids }).
+      minimum(:orders_open_at)
+  end
+
   def offers
     hub_offers.select { |offer| from_origin?(offer) }.first(@limit)
   end

@@ -586,6 +586,8 @@ en:
     confirmed: "delivery confirmed"
     empty: "No producers or pick-up points with a location yet."
   home_products:
+    none_open: "Nothing is open for orders right now. The next order cycle is coming soon."
+    next_opening: "Next order cycle opens on %{date}"
     hub_label: "Your pick-up point"
     hub_shop: "Go to shop"
     hub_switch: "Change pick-up point"

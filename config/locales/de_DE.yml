@@ -413,6 +413,8 @@ de_DE:
     confirmed: "Lieferung sicher"
     empty: "Noch keine Erzeuger oder Abholpunkte mit Standort."
   home_products:
+    none_open: "Gerade ist nichts bestellbar. Der nächste Bestellzyklus kommt bald."
+    next_opening: "Der nächste Bestellzyklus öffnet am %{date}"
     hub_label: "Dein Abholpunkt"
     hub_shop: "Zum Laden"
     hub_switch: "Abholpunkt wechseln"

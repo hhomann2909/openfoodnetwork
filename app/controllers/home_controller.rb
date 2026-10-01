@@ -6,7 +6,8 @@ class HomeController < BaseController
   helper CountryNameHelper
 
   helper_method :home_product_offers, :home_product_origins, :home_product_origin,
-                :home_product_stats, :home_product_hubs, :home_product_hub
+                :home_product_stats, :home_product_hubs, :home_product_hub,
+                :home_products_next_opening
 
   def index
     @external_page = CachedExternalPage.fetch(ContentConfig.home_page_url)
@@ -45,6 +46,10 @@ class HomeController < BaseController
 
   def home_product_hubs
     home_products.hubs
+  end
+
+  def home_products_next_opening
+    home_products.next_opens_at
   end
 
   def home_product_hub
