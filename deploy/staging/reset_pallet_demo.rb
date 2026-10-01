@@ -5,6 +5,9 @@
 # and one order of four boxes of oranges confirms the delivery again.
 #   bin/rails runner deploy/staging/reset_pallet_demo.rb
 order_cycle = OrderCycle.find_by!("name LIKE ?", "%Münsterland (Beispiel)%")
+# Keep the demo order cycle open: it would close for good a few days after the last demo.
+order_cycle.update!(orders_open_at: 2.days.ago,
+                    orders_close_at: 5.days.from_now.change(hour: 22))
 demo_orders = order_cycle.orders.complete.where.not(state: "canceled").
   where.not("email LIKE ?", "beispiel-%@example.org")
 
