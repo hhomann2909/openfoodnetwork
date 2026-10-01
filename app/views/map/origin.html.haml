@@ -3,10 +3,16 @@
 - content_for(:title) do
   = t :map_title
 
-- producers = @origin_map[:producers]
-- shops = @origin_map[:shops]
-- countries = (producers + shops).map { |point| [point[:country], point[:country_name]] }.uniq.sort_by(&:last)
-- tiles = ContentConfig.open_street_map_enabled ? ContentConfig.open_street_map_provider_name : "OpenStreetMap.Mapnik"
+:ruby
+  producers = @origin_map[:producers]
+  shops = @origin_map[:shops]
+  countries = (producers + shops).map { |point| [point[:country], point[:country_name]] }
+    .uniq.sort_by(&:last)
+  tiles = if ContentConfig.open_street_map_enabled
+            ContentConfig.open_street_map_provider_name
+          else
+            "OpenStreetMap.Mapnik"
+          end
 
 .origin-map{ data: { controller: "origin-map",
                      "origin-map-points-value": (producers + shops).to_json,

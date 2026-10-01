@@ -4,7 +4,7 @@
 - hub = home_product_hub
 = cache_with_locale ["home-products", hub&.enterprise&.permalink, home_product_origin], expires_in: 5.minutes do
   - if hub
-    #home-products.pane
+    #home-products.pane.home-products-pane
       .row.header
         .small-12.columns.text-center
           %h2= t("home_products.title")
@@ -60,7 +60,7 @@
             = link_to t("home_products.all_shops"), main_app.shops_path, class: "home-products-cta"
   - else
     -# Between order cycles: say so, rather than leaving the products out without a word.
-    #home-products.pane
+    #home-products-closed.pane.home-products-pane
       .row.header
         .small-12.columns.text-center
           %h2= t("home_products.title")

@@ -4,7 +4,7 @@
 
 // The home page products pane (feature: home_products). Headings, buttons and tiles follow the
 // other home page panes and the shopfront product grid, so the section reads as part of OFN.
-#panes #home-products.pane {
+#panes .home-products-pane.pane {
   background: b.$white;
 
   .row.header {
@@ -265,7 +265,7 @@
 }
 
 // The pick-up point the home page products belong to.
-#panes #home-products.pane {
+#panes .home-products-pane.pane {
   .row.hub-row {
     padding-top: 1.75rem;
     padding-bottom: 0;
